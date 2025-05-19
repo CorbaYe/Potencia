@@ -119,61 +119,71 @@ const repTec =  porcentajeEjerciciosTecnicos.map((v, i) => (totalRepeticiones[i]
 const repFue =  porcentajeEjerciciosFuerza.map((v, i) => (totalRepeticiones[i] * v)/100);
 
 new Chart(document.getElementById('volumeChart'), {
-    type: 'bar',
-    data: {
+  type: 'bar', // Tipo principal del gráfico
+  data: {
     labels: total_microciclos,
     datasets: [
-    {
+      // Datasets de barras (stacked)
+      {
         label: '% Ejercicios Técnico',
         data: porcentajeEjerciciosTecnicos,
         backgroundColor: 'rgba(255,206,86,0.6)',
         stack: 'Distribución'
-    },
-    {
+      },
+      {
         label: '% Ejercicios Fuerza',
         data: porcentajeEjerciciosFuerza,
         backgroundColor: 'rgba(153,102,255,0.6)',
         stack: 'Distribución'
-    },
-    {
+      },
+      // Datasets de líneas (deben estar separados)
+      {
         label: 'Repeticiones totales',
         data: totalRepeticiones,
-        backgroundColor: 'rgb(252, 255, 47)',
+        borderColor: 'rgb(252, 255, 47)', // Cambiado a borderColor para líneas
         type: 'line',
         borderWidth: 4,
         fill: false,
         yAxisID: 'y1'
-    },
-    {
+      },
+      {
         label: 'Cantidad ejercicios Técnicas',
         data: repTec,
-        backgroundColor: 'rgba(143, 253, 0, 0.6)',
+        borderColor: 'rgba(143, 253, 0, 0.6)', // Cambiado a borderColor
         type: 'line',
         borderWidth: 3,
         borderDash: [5,5],
         fill: false,
         yAxisID: 'y1'
-    },
-    {
+      },
+      {
         label: 'Cantidad ejercicios Fuerza',
         data: repFue,
-        backgroundColor: 'rgba(38, 0, 255, 0.6)',
+        borderColor: 'rgba(38, 0, 255, 0.6)', // Cambiado a borderColor
         type: 'line',
         borderWidth: 3,
         tension: 0.3,
         fill: false,
         yAxisID: 'y1'
-    }
+      }
     ]
-    },
-    options: {
+  },
+  options: {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
-        y: { stacked: true, position: 'left', title: { display: true, text: '% Distribución' } },
-        y1: { position: 'right', title: { display: true, text: 'Repeticiones' }, grid: { drawOnChartArea: false } }
+      y: { 
+        stacked: true, 
+        position: 'left', 
+        title: { display: true, text: '% Distribución' } 
+      },
+      y1: { 
+        position: 'right', 
+        title: { display: true, text: 'Repeticiones' }, 
+        grid: { drawOnChartArea: false } 
+      }
     }
-    }
+  }
 });
 
 // 3. Intensidad %1RM
