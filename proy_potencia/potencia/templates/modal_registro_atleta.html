@@ -1,0 +1,82 @@
+<div class="modal fade" id="datosAtletaModal" tabindex="-1" aria-labelledby="datosAtletaModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form method="post" action="{% url 'atletas' %}">
+                {% csrf_token %}
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="datosAtletaModalLabel">Registrar Nuevo Atleta</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_documento" class="form-label">Documento</label>
+                                {{ form.documento }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_nombre" class="form-label">Nombre Completo</label>
+                                {{ form.nombre }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="id_edad" class="form-label">Edad</label>
+                                {{ form.edad }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="id_genero" class="form-label">Género</label>
+                                {{ form.genero }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="id_entrenador" class="form-label">Entrenador</label>
+                                {{ form.entrenador }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h5 class="mt-4 mb-3">Marcas Personales</h5>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="id_arranque" class="form-label">Arranque (kg)</label>
+                                {{ form.arranque }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="id_envion" class="form-label">Envión (kg)</label>
+                                {{ form.envion }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="id_sentadilla_delante" class="form-label">Sentadilla Delante (kg)</label>
+                                {{ form.sentadilla_delante }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="id_sentadilla_detras" class="form-label">Sentadilla Detrás (kg)</label>
+                                {{ form.sentadilla_detras }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Atleta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

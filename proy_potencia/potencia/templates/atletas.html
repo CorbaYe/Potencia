@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+{% block titulo %} Atletas {% endblock %}
+
+{% block contenido %}
+<div class="card">
+    <div class="card-body">
+
+        {% if confirmar_eliminar %}
+        <div class="card mb-4 border-danger">
+            <div class="card-header bg-danger text-white">
+                <h4 class="card-title mb-0">
+                    <i class="fas fa-exclamation-triangle me-2"></i>Confirmar Eliminación
+                </h4>
+            </div>
+            <div class="card-body">
+                <p class="lead label-color-w">¿Estás seguro que deseas eliminar al atleta <strong>{{ atleta_a_eliminar.nombre }}</strong>?</p>
+                <p class="label-color-w">Documento: {{ atleta_a_eliminar.documento }} | ID: {{ atleta_a_eliminar.id }}</p>
+                
+                <form method="post" action="{% url 'eliminar_atleta' atleta_a_eliminar.id %}">
+                    {% csrf_token %}
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash-alt me-2"></i>Sí, Eliminar
+                        </button>
+                        <a href="{% url 'atletas' %}" class="btn btn-secondary">
+                            <i class="fas fa-times me-2"></i>Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if messages %}
+        <div class="mt-3">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if editing %}
+        <div class="card mb-4 border-secondary">
+            <div class="card text-bg-secondary mb-3">
+                <h4 class="card-title mb-0">
+                    <i class="fas fa-edit me-2"></i>Editando Atleta: {{ atleta_edicion.nombre }}
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label label-color-w">Documento</label>
+                                {{ form.documento }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label label-color-w">Nombre Completo</label>
+                                {{ form.nombre }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label label-color-w">Edad</label>
+                                {{ form.edad }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label label-color-w">Género</label>
+                                {{ form.genero }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label label-color-w">Entrenador</label>
+                                {{ form.entrenador }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h5 class="mt-4 mb-3 label-color-w">Marcas Personales</h5>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label label-color-w">Arranque (kg)</label>
+                                {{ form.arranque }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label label-color-w">Envión (kg)</label>
+                                {{ form.envion }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label label-color-w">Sentadilla Delante (kg)</label>
+                                {{ form.sentadilla_delante }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label label-color-w">Sentadilla Detrás (kg)</label>
+                                {{ form.sentadilla_detras }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Actualizar Atleta
+                        </button>
+                        <a href="{% url 'atletas' %}" class="btn btn-secondary">
+                            <i class="fas fa-times me-2"></i>Cancelar Edición
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="card-title mb-0 label-color-fff">Atletas</h4>
+            <div class="mt-3">
+                <button type="button" class="btn btn-outline-light rounded-pill px-4 py-2" data-bs-toggle="modal"
+                    data-bs-target="#datosAtletaModal">
+                    <i class="fas fa-plus me-2"></i>Agregar nuevo atleta
+                </button>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle w-100">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Documento</th>
+                        <th>Nombre</th>
+                        <th>Edad</th>
+                        <th>Género</th>
+                        <th>Arranque</th>
+                        <th>Envion</th>
+                        <th>S. Delante</th>
+                        <th>S. Detrás</th>
+                        <th>Entrenador</th>
+                        <th class="text-end">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for atleta in atletas %}
+                    <tr>
+                        <td>{{ atleta.id }}</td>
+                        <td>{{ atleta.documento }}</td>
+                        <td>{{ atleta.nombre }}</td>
+                        <td>{{ atleta.edad }}</td>
+                        <td>{{ atleta.genero }}</td>
+                        <td>{{ atleta.arranque }}</td>
+                        <td>{{ atleta.envion }}</td>
+                        <td>{{ atleta.sentadilla_delante }}</td>
+                        <td>{{ atleta.sentadilla_detras }}</td>
+                        <td>
+                            {% if atleta.entrenador %}
+                                {{ atleta.entrenador.nombre }}
+                            {% else %}
+                                <span class="text-muted">Sin asignar</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end">
+                            <div class="btn-group" role="group">
+                                <a href="{% url 'editar_atleta' atleta.id %}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{% url 'eliminar_atleta' atleta.id %}" class="btn btn-sm btn-outline-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <h5 class="mt-5 mb-3 label-color-fff">Vista en Tarjetas</h5>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+            {% for atleta in atletas %}
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-header bg-light">
+                        <h5 class="card-title mb-0">{{ atleta.nombre }}</h5>
+                        <small class="text-muted">ID: {{ atleta.id }}</small>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-3 label-color-w">Marcas personales</h6>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Arranque
+                                <span class="badge bg-primary rounded-pill">{{ atleta.arranque }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Envión
+                                <span class="badge bg-primary rounded-pill">{{ atleta.envion }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Sentadilla Delante
+                                <span class="badge bg-primary rounded-pill">{{ atleta.sentadilla_delante }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Sentadilla Detrás
+                                <span class="badge bg-primary rounded-pill">{{ atleta.sentadilla_detras }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="d-flex justify-content-between">
+                            <small class="label-color-w">
+                                {% if atleta.entrenador %}
+                                    Entrenador: {{ atleta.entrenador.nombre }}
+                                {% else %}
+                                    Sin entrenador
+                                {% endif %}
+                            </small>
+                            <div>
+                                <a href="{% url 'editar_atleta' atleta.id %}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{% url 'eliminar_atleta' atleta.id %}" class="btn btn-sm btn-outline-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% include 'modal_registro_atleta.html' %} 
+{% endblock %}
