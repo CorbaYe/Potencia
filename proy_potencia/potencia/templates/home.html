@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block titulo %} Panel del Entrenador - Halterofilia ATR {% endblock %}
+
+{% block contenido %}
+<div class="d-flex justify-content-end mb-4"> 
+    <a href="{% url 'exit' %}" class="btn btn-outline-danger btn-sm shadow-sm">
+        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+    </a>
+</div>
+
+<div class="text-center mb-5">
+    <h2 class="bienvenido fw-bold display-5 label-color-fff">Bienvenido, {{ user.username | upper }}</h2>
+    <div class="underline mx-auto my-2"></div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card custom-card animate-drop text-white flex-md-row overflow-hidden shadow-lg rounded-4 border-0"
+            style="background: linear-gradient(135deg, #3a3a3a 70%, #2e4d38);">
+            <div class="d-none d-md-block" style="flex: 1 1 40%; overflow: hidden;">
+                <img src="https://as01.epimg.net/deporteyvida/imagenes/2018/08/22/portada/1534968644_975765_1534970891_noticia_normal_recorte1.jpg"
+                alt="Seguimiento Progresivo" class="custom-img">
+            </div>
+            <div class="card-body d-flex flex-column justify-content-between" style="flex: 1 1 60%; height: 250px;">
+                 <h5 class="card-title fw-bold ">📊 plan de entrenamiento</h5>
+                <p class="card-text" style="text-align: start;">Crea planes adaptados a cada atleta con base en sus marcas y
+                    objetivos.</p>
+            </div>
+            <div class="mt-3">
+                <button type="button" class="btn btn-outline-light rounded-pill px-4 py-2" data-bs-toggle="modal"
+                    data-bs-target="#dataModal">
+                    <i class="fas fa-chart-line me-2"></i>Nuevo plan
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="dataModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="post" action="{% url 'macrociclos' %}">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title modal-label-color" id="dataModalLabel">Ingrese los datos requeridos</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="modal-label-color" for="dias">Número de Días</label>
+                        <input type="number" class="form-control" id="num_days" name="num_days" required>
+                    </div>
+
+                    <h5 class="modal-title modal-label-color" id="dataModalLabel">Repeticiones mensuales</h5>
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="d-flex gap-3">
+                            <div class="form-group mb-0">
+                                <label class="modal-label-color" for="a_acumulacion">A</label>
+                                <input type="number" class="form-control" id="a_acumulacion" name="a_acumulacion">
+                            </div>
+                            <div class="form-group mb-0">
+                                <label class="modal-label-color" for="t_transformacion">T</label>
+                                <input type="number" class="form-control" id="t_transformacion" name="t_transformacion">
+                            </div>
+                            <div class="form-group mb-0">
+                                <label class="modal-label-color" for="r_realizacion">R</label>
+                                <input type="number" class="form-control" id="r_realizacion" name="r_realizacion">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Enviar Datos</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
