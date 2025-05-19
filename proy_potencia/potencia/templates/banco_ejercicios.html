@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block titulo %} Atletas {% endblock %}
+
+{% block contenido %}
+<div class="card">
+    <div class="card-body">
+
+        {% if confirmar_eliminar %}
+        <div class="card mb-4 border-danger">
+            <div class="card-header bg-danger text-white">
+                <h4 class="card-title mb-0">
+                    <i class="fas fa-exclamation-triangle me-2"></i>Confirmar Eliminación
+                </h4>
+            </div>
+            <div class="card-body">
+                <p class="lead label-color-w">¿Estás seguro que deseas eliminar el ejercicio <strong>{{ ejercicio_a_eliminar.nombre }}</strong>?</p>
+              
+                <form method="post" action="{% url 'eliminar_ejercicio' ejercicio_a_eliminar.id %}">
+                    {% csrf_token %}
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash-alt me-2"></i>Sí, Eliminar
+                        </button>
+                        <a href="{% url 'ejercicios' %}" class="btn btn-secondary">
+                            <i class="fas fa-times me-2"></i>Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if messages %}
+        <div class="mt-3">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if editing %}
+<div class="card mb-4 border-secondary">
+    <div class="card text-bg-secondary mb-3">
+        <h4 class="card-title mb-0">
+            <i class="fas fa-edit me-2"></i>Editando ejercicio: {{ ejercicio_edicion.nombre }}
+        </h4>
+    </div>
+    <div class="card-body">
+        <form method="post" action="{% url 'editar_ejercicio' ejercicio_edicion.id %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label label-color-w">Código</label>
+                        {{ form.codigo }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label label-color-w">Nombre</label>
+                        {{ form.nombre }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label label-color-w">Descripción</label>
+                        {{ form.descripcion }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label label-color-w">Imagen Actual</label>
+                        {% if ejercicio_edicion.img %}
+                        <img src="{{ ejercicio_edicion.img.url }}" class="img-fluid mb-2" style="max-height: 200px;">
+                        {% else %}
+                        <p class="text-muted">No hay imagen cargada</p>
+                        {% endif %}
+                        <label class="form-label label-color-w">Nueva Imagen (opcional)</label>
+                        {{ form.img }}
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i>Actualizar ejercicio
+                </button>
+                <a href="{% url 'ejercicios' %}" class="btn btn-secondary">
+                    <i class="fas fa-times me-2"></i>Cancelar Edición
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="card-title mb-0 label-color-fff">Batería de ejercicios</h4>
+            <div class="mt-3">
+                <button type="button" class="btn btn-outline-light rounded-pill px-4 py-2" data-bs-toggle="modal"
+                    data-bs-target="#ejerciciosModal">
+                    <i class="fas fa-plus me-2"></i>Agregar nuevo ejercicio
+                </button>
+            </div>
+        </div>
+
+        <h5 class="mt-5 mb-3 label-color-fff">Ejercicios guardados</h5>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+            {% for ejercicio in ejercicios %}
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{{ ejercicio.img.url }}" class="card-img-top">
+                    <div class="card-header bg-light">
+                        <h5 class="card-title mb-0">{{ ejercicio.nombre }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-3 label-color-w">Descripción</h6>
+                        <ul class="list-group list-group-flush">
+                            <p class="card-text label-color-w">{{ ejercicio.descripcion }}</p>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Código
+                                <span class="badge bg-primary rounded-pill">{{ ejercicio.codigo }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="d-flex justify-content-between">
+                            <small class="label-color-w">
+                                <p>Acciones</p>
+                            </small>
+                            <div>
+                                <a href="{% url 'editar_ejercicio' ejercicio.id %}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{% url 'eliminar_ejercicio' ejercicio.id %}" class="btn btn-sm btn-outline-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% include 'modal_banco_ejercicios.html' %} 
+{% endblock %}
