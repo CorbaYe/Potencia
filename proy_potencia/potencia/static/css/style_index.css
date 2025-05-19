@@ -1,0 +1,84 @@
+:root {
+    --verde-manzana: #8af704;
+    --azul-oscuro: #030b1d;
+}
+
+body {
+    background: var(--azul-oscuro);
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-image: url('https://plus.unsplash.com/premium_photo-1663036910281-393a8ac7d88b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGhhbHRlcm9maWxpYXxlbnwwfHwwfHx8MA%3D%3D');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.overlay {
+    background-color: rgba(2, 4, 11, 0.85);
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+nav.navbar {
+    z-index: 10;
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 800px;
+    padding: 2rem;
+    margin: auto;
+    top: 10vh;
+}
+
+.content h1 {
+    font-size: 5rem;
+    font-weight: bold;
+    color: var(--verde-manzana);
+    animation: fadeInDown 1s ease-in-out;
+}
+
+.content p {
+    font-size: 1.25rem;
+    margin: 1rem 0;
+}
+
+.btn-potencia {
+    background-color: var(--verde-manzana);
+    color: #0f172a;
+    border: none;
+    font-weight: bold;
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    transition: 0.3s ease-in-out;
+}
+
+.btn-potencia:hover {
+    background-color: #93d04f;
+    transform: scale(1.08);
+}
+
+@keyframes fadeInDown {
+    from {
+    opacity: 0;
+    transform: translateY(-40px);
+    }
+    to {
+    opacity: 1;
+    transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .content h1 {
+    font-size: 2.5rem;
+    }
+}

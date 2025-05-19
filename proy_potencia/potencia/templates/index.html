@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bienvenido a POTENCIA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1048/1048927.png" type="image/png" />
+    <link rel="stylesheet" href="{% static 'css/style_index.css' %}">
+</head>
+
+<body>
+    <div class="overlay"></div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent position-absolute w-100">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <i class="bi bi-lightning-charge-fill me-2 text-success fs-3"></i>
+                <strong class="fs-4 text-light">POTENCIA</strong>
+            </a>
+        </div>
+    </nav>
+    <div class="content text-white">
+        <h1>POTENCIA</h1>
+        <p>Optimiza el rendimiento de tus atletas con planes personalizados de entrenamiento ATR.</p>
+        <a href="{% url 'login' %}" class="btn btn-potencia" data-bs-toggle="tooltip" data-bs-placement="top"
+            title="Acceder al panel del entrenador">
+            Iniciar sesion
+        </a>
+        <div class="mt-3 d-none" id="loading">
+            <div class="spinner-border text-success" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/script_index.js' %}"></script>
+</body>
+</html>
