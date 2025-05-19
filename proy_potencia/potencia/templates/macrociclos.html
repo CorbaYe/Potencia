@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block titulo %} Plan de Entrenamiento - Macrociclos {% endblock %}
+
+{% block contenido %}
+<div class="container mt-4">
+    {% if results %}
+      {{ results|json_script:"results-data" }}
+      {% if results.mensaje == '' %}
+        <h2 class="mt-5 label-color-fff">Resultados</h2>
+        
+        <button type="button" class="btn btn-outline-light rounded-pill px-4 py-2 float-end" style="width: 200px; margin-bottom: 15px;" onclick="enviarMicrociclos()">
+              <i class="fas fa-chart-line me-2"></i>Ver microciclos
+        </button>
+
+        <table class="table table-bordered table-bordered border-0">
+          <thead>
+            <tr>
+              <th>Total Días</th>
+              <th>Semanas necesarias</th>
+              <th>A</th>
+              <th>T</th>
+              <th>R</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ results.total_days }}</td>
+              <td>{{ results.num_weeks }}</td>
+              <td>{{ results.porcentaje_acumulacion }}</td>
+              <td>{{ results.porcentaje_transformacion }}</td>
+              <td>{{ results.porcentaje_realizacion }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Gantt / Fases -->
+        <div class="card">
+            <div class="card-header text-light">Fases del Macrocilco (Gantt Simplificado)</div>
+            <div class="card-body">
+            <canvas id="ganttChart" style="height: 350px;"></canvas>
+            </div>
+        </div>
+
+        <!-- Cantidad de repeticiones por semana -->
+        <div class="container text-center">
+          <div class="row align-items-start">
+            <div class="col">
+              {% if results.repet_acumulacion %}
+              <h4 class="label-color-w">Repeticiones acumulación</h4>
+              <table class="table table-bordered table-bordered border-0">
+                <thead>
+                  <tr>
+                    <th>Semana</th>
+                    <th>Cantidad</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for acumulacion in results.repet_acumulacion %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ acumulacion }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            {% endif %}
+            </div>
+            <div class="col">
+              {% if results.repet_transformacion %}
+              <h4 class="label-color-w">Repeticiones transformación</h4>
+              <table class="table table-bordered table-bordered border-0">
+                <thead>
+                  <tr>
+                    <th>Semana</th>
+                    <th>Cantidad</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for transformacion in results.repet_transformacion %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ transformacion }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            {% endif %}
+            </div>
+            <div class="col">
+              {% if results.repet_realizacion %}
+              <h4 class="label-color-w">Repeticiones realización</h4>
+              <table class="table table-bordered table-bordered border-0">
+                <thead>
+                  <tr>
+                    <th>Semana</th>
+                    <th>Cantidad</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for realizacion in results.repet_realizacion %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ realizacion }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Volumen y distribución técnica/fuerza -->
+        <div class="card">
+            <div class="card-header text-light">Volumen Semanal y Distribución Técnica vs Fuerza</div>
+            <div class="card-body">
+            <canvas id="volumeChart" style="height: 550px;"></canvas>
+            </div>
+        </div>
+
+        <!-- Intensidad Ejercicios -->
+        <div class="card">
+            <div class="card-header text-light">Intensidad (%1RM) por Ejercicio</div>
+            <div class="card-body">
+            <canvas id="intensityChart" style="height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <!-- Semanas de entrenamiento -->
+        {% if results.weeks %}
+          <h3 class="label-color-fff">Detalle de Semanas</h3>
+          <table class="table table-bordered table-striped table-bordered border-0">
+            <thead>
+              <tr>
+                <th>Semana ISO</th>
+                <th>Año ISO</th>
+                <th>Inicio</th>
+                <th>Fin</th>
+                <th>Cantidad de Días</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for week in results.weeks %}
+              <tr data-days="{{ week.days_count }}"></tr>
+              <tr>
+                <td>{{ week.iso_week }}</td>
+                <td>{{ week.iso_year }}</td>
+                <td>{{ week.start|date:"l - d/m/Y" }}</td>
+                <td>{{ week.end|date:"l - d/m/Y" }}</td>
+                <td>{{ week.days_count }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% endif %}
+      {% else %}
+        <div
+          class="alert alert-primary"
+          role="alert"
+        >
+          <strong> </strong> {{ results.mensaje }}
+        </div>
+      {% endif %}
+    {% endif %}
+</div>
+{% endblock %}
