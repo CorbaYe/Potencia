@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block titulo %} Plan de Entrenamiento - Microciclos {% endblock %}
+
+{% block contenido %}
+    <div class="container mt-4">
+        <div class="row mb-3">
+            <div class="col-12 bg-white p-3 rounded shadow-sm">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <select class="form-select" id="athlete-select">
+                            <option value="" selected disabled>Seleccionar atleta</option>
+                            {% for atleta in atletas %}
+                            <option value="{{ atleta.id }}" 
+                                    data-arr="{{ atleta.arranque }}"
+                                    data-env="{{ atleta.envion }}"
+                                    data-sa="{{ atleta.sentadilla_delante }}"
+                                    data-sxat="{{ atleta.sentadilla_detras }}">
+                                {{ atleta.nombre }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <small class="text-muted">Microciclos personalizados</small>
+                    </div>
+
+                    
+                    <div>
+                        <button type="button" class="btn btn-outline-dark rounded-pill px-4 py-2 float-end" data-bs-toggle="modal" data-bs-target="#macroModal">
+                            Configurar Macros
+                        </button>
+                        <button type="button" class="btn btn-outline-dark rounded-pill px-4 py-2 float-end" style="margin-left: 10px;margin-right: 10px;" data-bs-toggle="modal" data-bs-target="#paramsModal">
+                            Parámetros
+                        </button>
+                        <button type="button" class="btn btn-outline-dark rounded-pill px-4 py-2 float-end" data-bs-toggle="modal" data-bs-target="#editModal" id="editButton" disabled>
+                            Editar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="macroModal" tabindex="-1" aria-labelledby="macroModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="macroForm">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="macroModalLabel">Configurar Macros de Entrenamiento</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="macroInput" class="form-label">Número de Macros (1-14):</label>
+                                <input type="number" class="form-control" id="macroInput" min="1" max="14" value="1" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="daysInput" class="form-label">Días por Macro (1-5):</label>
+                                <input type="number" class="form-control" id="daysInput" min="1" max="5" value="5" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Generar Plan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="paramsModal" tabindex="-1" aria-labelledby="paramsModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="parametersForm">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="paramsModalLabel">Configurar Parámetros Base</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="arrInput" class="form-label">ARR (kg)</label>
+                                <input type="number" class="form-control" id="arrInput" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="envInput" class="form-label">ENV (kg)</label>
+                                <input type="number" class="form-control" id="envInput" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="saInput" class="form-label">SA (kg)</label>
+                                <input type="number" class="form-control" id="saInput" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="sxatInput" class="form-label">SXAT (kg)</label>
+                                <input type="number" class="form-control" id="sxatInput" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="editForm">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel">Editar Ejercicio</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="editMacroIndex">
+                            <input type="hidden" id="editCategory">
+                            <input type="hidden" id="editRowIndex">
+                            <input type="hidden" id="editPercentageIndex">
+                            <input type="hidden" id="editDayIndex">
+
+                            <div class="mb-3">
+                                <label class="form-label">Día: <span id="editDayDisplay" class="fw-bold"></span></label>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Categoría: <span id="editCategoryDisplay" class="fw-bold"></span></label>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Porcentaje: <span id="editPercentageDisplay" class="fw-bold"></span></label>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="editSec" class="form-label">Secuencia</label>
+                                    <input type="number" class="form-control" id="editSec">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="editCog" class="form-label">COG</label>
+                                    <input type="number" class="form-control" id="editCog">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="editForma" class="form-label">Forma</label>
+                                    <input type="text" class="form-control" id="editForma">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="editS" class="form-label">Series (S)</label>
+                                    <input type="number" class="form-control" id="editS">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="editR" class="form-label">Reps (R)</label>
+                                    <input type="number" class="form-control" id="editR">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger me-auto" id="clearButton">Limpiar</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="training-plan"></div>
+    </div>
+{% endblock %}

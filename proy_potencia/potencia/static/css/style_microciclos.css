@@ -1,0 +1,64 @@
+.exercise-table { 
+    font-size: 0.75rem; 
+    table-layout: fixed; 
+}
+.category-header { 
+    background-color: #e9ecef; 
+    font-weight: bold; 
+}
+.exercise-column { 
+    min-width: 80px; 
+    background-color: #f8f9fa; 
+}
+.falso-cell { 
+    color: #dc3545; 
+    font-size: 0.7rem; 
+}
+.total-cell { 
+    background-color: #d4edda; 
+    font-weight: bold; 
+}
+.day-section { 
+    border: 1px solid #dee2e6; 
+    border-radius: 0.25rem; 
+    margin-bottom: 1.5rem; 
+}
+.day-header { 
+    cursor: pointer; 
+}
+.day-content { 
+    display: none; 
+}
+.day-section.expanded .day-content { 
+    display: block; 
+}
+.editable-cell { 
+    cursor: pointer; 
+    transition: background-color 0.2s; 
+}
+.editable-cell:hover { 
+    background-color: #e2e3e5 !important; 
+}
+.macro-section { 
+    border: 1px solid #dee2e6; 
+    border-radius: 0.25rem; 
+    margin-bottom: 2rem; 
+}
+.macro-header { 
+    cursor: pointer; 
+    padding: 1rem; 
+    background-color: #f8f9fa; 
+    border-bottom: 1px solid #dee2e6; 
+}
+.macro-content { 
+    display: none; 
+}
+.macro-section.expanded .macro-content { 
+    display: block; 
+}
+
+#athlete-select {
+    max-width: 300px;
+    display: inline-block;
+    margin-right: 10px;
+}
