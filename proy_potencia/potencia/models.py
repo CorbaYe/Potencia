@@ -1,3 +1,55 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-# Create your models here.
+class Holiday(models.Model):
+    date = models.DateField(unique=True)
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.name} ({self.date})"
+
+class Entrenadores(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    nombre = models.CharField(max_length=101)
+    edad = models.PositiveSmallIntegerField()
+    generos_lista = [("Masculino", "Masculino"), ("Femenino", "Femenino")]
+    genero = models.CharField(max_length=10, choices=generos_lista)
+
+    def __str__(self):
+        return self.nombre
+    
+class Atletas(models.Model):
+    id = models.AutoField(primary_key=True)
+    documento = models.CharField(unique=True, max_length=100)
+    nombre = models.CharField(max_length=100)
+    edad = models.PositiveSmallIntegerField()
+    generos_lista = [("Masculino", "Masculino"), ("Femenino", "Femenino")]
+    genero = models.CharField(max_length=10, choices=generos_lista)
+    arranque = models.CharField(max_length=3)
+    envion = models.CharField(max_length=3)
+    sentadilla_delante = models.CharField(max_length=3)
+    sentadilla_detras = models.CharField(max_length=3)
+    entrenador = models.ForeignKey(
+        Entrenadores,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='atletas'
+    )
+
+    def __str__(self):
+        return self.nombre
+
+class Ejercicios(models.Model):
+    id = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=100)
+    codigo = models.CharField(max_length=3)
+    img = models.ImageField(upload_to='img/', verbose_name="Imagen", null=True)
+    descripcion = models.TextField(verbose_name="Descripción", null=True)
+
+    def __str__(self):
+        return self.nombre
+    
+    def delete(self, using = None, keep_parents= False):
+        self.img.storage.delete(self.img.name)
+        super().delete()
