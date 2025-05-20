@@ -175,7 +175,7 @@ function renderTable() {
         const macroHeader = document.createElement('div');
         macroHeader.className = 'macro-header d-flex justify-content-between align-items-center';
         macroHeader.innerHTML = `
-            <h3 class="mb-0">Macro ${macroIndex + 1}</h3>
+            <h3 class="mb-0">Microciclo ${macroIndex + 1}</h3>
             <i class="bi bi-chevron-down"></i>
         `;
         macroHeader.addEventListener('click', () => {
