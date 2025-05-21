@@ -87,7 +87,9 @@ def eliminar_ejercicio(request, pk):
 
 @login_required
 def atletas(request):
-    atletas = Atletas.objects.all()
+    entrenador = request.user.entrenadores
+    # atletas = Atletas.objects.all()
+    atletas = entrenador.atletas.all()
     form = AtletaForm(request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
