@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Holiday(models.Model):
     date = models.DateField(unique=True)
@@ -39,7 +41,8 @@ class Atletas(models.Model):
 
     def __str__(self):
         return self.nombre
-
+    
+#mi cuenta
 class Ejercicios(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
@@ -53,3 +56,24 @@ class Ejercicios(models.Model):
     def delete(self, using = None, keep_parents= False):
         self.img.storage.delete(self.img.name)
         super().delete()
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    foto_perfil = models.ImageField(upload_to='perfiles/', null=True, blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+# Crear automáticamente un perfil al crear un usuario
+@receiver(post_save, sender=User)
+def crear_perfil_usuario(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)   
+
+@receiver(post_save, sender=User)
+def guardar_perfil_usuario(sender, instance, **kwargs):
+    try:
+        instance.profile.save()
+    except Profile.DoesNotExist:    
+        Profile.objects.create(user=instance)

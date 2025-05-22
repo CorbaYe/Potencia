@@ -7,6 +7,11 @@ from django.contrib.auth import logout
 from django.utils import timezone
 from .forms import DaysForm, RegistroEntrenadorForm, AtletaForm, EjerciciosForm
 from .models import Holiday, Atletas, Ejercicios, Entrenadores
+from .forms import PerfilForm, FotoPerfilForm, CustomPasswordChangeForm  # ajusta los nombres
+from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
+from django.urls import reverse_lazy
+
+
 
 def index(request):
     return render(request, 'index.html')
@@ -249,6 +254,63 @@ def macrociclos(request):
         }
     return render(request, 'macrociclos.html', {'form': form, 'results': results})
 
+
+#mi cuenta
+from .forms import EditarPerfilForm, EditarFotoPerfilForm  # Asegúrate de importar estos formularios
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+
+@login_required
+def configuracion_cuenta(request):
+    user = request.user
+    entrenador = getattr(user, 'entrenadores', None)
+    perfil = getattr(user, 'profile', None)
+
+    if request.method == 'POST':
+        perfil_form = EditarPerfilForm(request.POST, request.FILES, instance=user, entrenador=entrenador, perfil=perfil)
+        password_form = PasswordChangeForm(request.user, request.POST)
+
+        if perfil_form.is_valid():
+            perfil_form.save()
+            messages.success(request, 'Perfil actualizado correctamente.')
+
+        if password_form.is_valid():
+            user = password_form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Contraseña actualizada correctamente.')
+        elif request.POST.get('old_password'):
+            messages.error(request, 'Error al cambiar la contraseña. Verifica los datos ingresados.')
+
+        return redirect('configuracion_cuenta')
+    else:
+        perfil_form = EditarPerfilForm(instance=user, entrenador=entrenador, perfil=perfil)
+        password_form = PasswordChangeForm(request.user)
+
+    for field in perfil_form.fields.values():
+        field.widget.attrs.update({'class': 'form-control'})
+
+    for field in password_form.fields.values():
+        field.widget.attrs.update({'class': 'form-control'})
+
+    return render(request, 'configuracion_cuenta.html', {
+        'form': perfil_form,
+        'foto_form': perfil_form,  # Ya no necesitas uno aparte
+        'password_form': password_form,
+    })
+
+
+
+class CambiarContrasenaView(PasswordChangeView):
+    template_name = 'cambiar_contrasena.html'  # Crea esta plantilla luego
+    success_url = reverse_lazy('cambiar_contrasena_done')
+
+class CambiarContrasenaDoneView(PasswordChangeDoneView):
+    template_name = 'cambiar_contrasena_done.html'  # También crea esta plantilla
+
+
+
+
+# mi cuenta
 
 def diccionario_porcentajes_repeticiones(cantidad_semanas, repeticiones, tipo_fase):
     diccionario_porcentajes = {
