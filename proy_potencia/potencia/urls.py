@@ -21,8 +21,5 @@ urlpatterns = [
     path('microciclos', views.microciclos, name='microciclos'),
     #micuenta
     path('cuenta/configuracion/', views.configuracion_cuenta, name='configuracion_cuenta'),
-    
-    path('cuenta/cambiar-contrasena/', CambiarContrasenaView.as_view(), name='cambiar_contrasena'),
-    path('cuenta/cambiar-contrasena/finalizado/', CambiarContrasenaDoneView.as_view(), name='cambiar_contrasena_done'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
