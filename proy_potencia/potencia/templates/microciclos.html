@@ -26,7 +26,7 @@
                     
                     <div>
                         <button type="button" class="btn btn-outline-dark rounded-pill px-4 py-2 float-end" data-bs-toggle="modal" data-bs-target="#macroModal">
-                            Configurar Macros
+                            Configurar Micros
                         </button>
                         <button type="button" class="btn btn-outline-dark rounded-pill px-4 py-2 float-end" style="margin-left: 10px;margin-right: 10px;" data-bs-toggle="modal" data-bs-target="#paramsModal">
                             Parámetros
@@ -44,16 +44,16 @@
                 <div class="modal-content">
                     <form id="macroForm">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="macroModalLabel">Configurar Macros de Entrenamiento</h5>
+                            <h5 class="modal-title" id="macroModalLabel">Configurar Micros de Entrenamiento</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="macroInput" class="form-label">Número de Macros (1-14):</label>
+                                <label for="macroInput" class="form-label">Número de Microciclos (1-14):</label>
                                 <input type="number" class="form-control" id="macroInput" min="1" max="14" value="1" required>
                             </div>
                             <div class="mb-3">
-                                <label for="daysInput" class="form-label">Días por Macro (1-5):</label>
+                                <label for="daysInput" class="form-label">Días por Microciclo (1-5):</label>
                                 <input type="number" class="form-control" id="daysInput" min="1" max="5" value="5" required>
                             </div>
                         </div>

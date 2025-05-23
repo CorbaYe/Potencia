@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}Dashboard Halterofilia{% endblock %}
+
+{% block contenido %}
+<h2 class="section-title">📊 Teoria Clave Halterofilia</h2>
+<p class="text-center">Visualiza los pilares clave del entrenamiento en halterofilia de forma interactiva y sencilla.</p>
+
+<div class="dashboard-wrapper position-relative overflow-hidden py-4">
+  <button class="arrow-btn arrow-left" onclick="scrollDash(-1)"><i class="fas fa-chevron-left"></i></button>
+  <div id="dashboardScroll" class="dashboard-container d-flex overflow-auto gap-4 px-3">
+    <div class="dashboard-card bg-dark border border-secondary rounded p-4 flex-shrink-0" style="min-width:350px; min-height:350px;">
+      <h4 class="card-title"><i class="fas fa-dumbbell icon-box"></i>Fundamentos</h4>
+      <p>La halterofilia se basa en la <span class="highlight">potencia aplicada en poco tiempo</span>. Requiere fuerza máxima, técnica depurada y velocidad de ejecución.</p>
+      <canvas id="graficoPotencia" height="160"></canvas>
+    </div>
+ <div class="dashboard-card bg-dark border border-secondary rounded p-4 flex-shrink-0" style="min-width:350px; min-height:350px;">
+  <h4 class="card-title"><i class="fas fa-user-graduate icon-box"></i>Coaching</h4>
+  <p>El entrenador enseña ética, técnica y <span class="highlight">autogestión del esfuerzo</span>. Es clave para construir atletas completos y seguros.</p>
+  <div class="img-placeholder">
+    <img src="{% static 'images/coach.jpeg' %}" alt="Infografía de coaching" class="img-fluid rounded">
+  </div>
+</div>
+
+<div class="dashboard-card bg-dark border border-secondary rounded p-4 flex-shrink-0" style="min-width:350px; min-height:350px;">
+  <h4 class="card-title"><i class="fas fa-layer-group icon-box"></i>Sistema Progresivo</h4>
+  <p>Modelo por niveles: <br><span class="highlight">Iniciación → Promesa → Élite</span>, con metas físicas y técnicas claras.</p>
+  <div class="img-placeholder">
+    <img src="{% static 'images/progesivo.webp' %}" alt="Pirámide de niveles" class="img-fluid rounded">
+  </div>
+</div>
+
+<div class="dashboard-card bg-dark border border-secondary rounded p-4 flex-shrink-0" style="min-width:350px; min-height:350px;">
+  <h4 class="card-title"><i class="fas fa-dna icon-box"></i>Factores Individuales</h4>
+  <p>La planificación se adapta a edad, fisiología y mente. El <span class="highlight">ajuste individual</span> es esencial para evitar lesiones y potenciar progreso.</p>
+  <div class="img-placeholder">
+    <img src="{% static 'images/factores.webp' %}" alt="Tabla de ajustes" class="img-fluid rounded">
+  </div>
+</div>
+
+<div class="dashboard-card bg-dark border border-secondary rounded p-4 flex-shrink-0" style="min-width:350px; min-height:350px;">
+  <h4 class="card-title"><i class="fas fa-running icon-box"></i>Técnica y Ejecución</h4>
+  <p>Fases del levantamiento: postura, tracción, recepción y <span class="highlight">recuperación técnica</span>. La precisión es vital.</p>
+  <div class="img-placeholder">
+    <img src="{% static 'images/tecnica.jpg' %}" alt="Secuencia de arranque" class="img-fluid rounded">
+  </div>
+</div>
+
+  </div>
+  <button class="arrow-btn arrow-right" onclick="scrollDash(1)"><i class="fas fa-chevron-right"></i></button>
+</div>
+
+<hr class="my-5">
+
+<h2 class="text-success mb-4">Glosario Técnico de Halterofilia</h2>
+<div id="glossaryContainer" class="container mb-5">
+  <!-- Las tarjetas del glosario serán insertadas aquí por JavaScript -->
+</div>
+
+
+<footer class="text-center py-4 mt-4 border-top text-muted">
+  <small>&copy; 2024 - Plataforma de Halterofilia. Diseñado por Sebastián 💡</small>
+</footer>
+{% endblock %}
+
+{% block extra_js %}
+
+<script src="{% static 'js/script_teoria.js' %}"></script>
+
+<script>
+  const container = document.getElementById('dashboardScroll');
+  function scrollDash(direction) {
+    const scrollAmount = 400;
+    container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+  }
+
+  // Chart.js - Potencia
+  const ctx = document.getElementById('graficoPotencia').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Arranque', 'Envión', 'Sentadilla Frontal', 'Sentadilla Trasera'],
+      datasets: [{
+        label: 'Kg promedio por atleta',
+        data: [95, 120, 140, 180],
+        backgroundColor: '#8af70488',
+        borderColor: '#8af704',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { labels: { color: '#fff' } } },
+      scales: {
+        x: { ticks: { color: '#ccc' } },
+        y: { ticks: { color: '#ccc' }, beginAtZero: true }
+      }
+    }
+  });
+</script>
+{% endblock %}
