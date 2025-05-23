@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+
+{{ all_data|json_script:"all-data" }}
+<h2 class="label-color-fff">Resumen del Macrociclo - {{ macrociclo.entrenador }}</h2>
+<div class="card mb-4">
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Total Semanas</th>
+                    <th>Acumulación (A)</th>
+                    <th>Transformación (T)</th>
+                    <th>Realización (R)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ all_data.semanas }}</td>
+                    <td>{{ all_data.porcentajes_atr.acumulacion }}</td>
+                    <td>{{ all_data.porcentajes_atr.transformacion }}</td>
+                    <td>{{ all_data.porcentajes_atr.realizacion }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Tablas de repeticiones -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header label-color-w">Repeticiones Acumulación</div>
+            <div class="card-body">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Semana</th>
+                            <th>Reps</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-acumulacion"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header label-color-w">Repeticiones Transformación</div>
+            <div class="card-body">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Semana</th>
+                            <th>Reps</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-transformacion"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header label-color-w">Repeticiones Realización</div>
+            <div class="card-body">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Semana</th>
+                            <th>Reps</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-realizacion"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Gráfico de Volumen -->
+<div class="card mb-4">
+    <div class="card-header label-color-w">Volumen Semanal</div>
+    <div class="card-body">
+        <canvas id="volumeChart" style="height: 550px;"></canvas>
+    </div>
+</div>
+
+<!-- Gráfico de Intensidad -->
+<div class="card mb-4">
+    <div class="card-header label-color-w">Intensidad (%1RM)</div>
+    <div class="card-body">
+        <canvas id="intensityChart" style="height: 300px;"></canvas>
+    </div>
+</div>
+
+<!-- Gráfico Gantt -->
+<div class="card mb-4">
+    <div class="card-header label-color-w">Distribución ATR (Gantt)</div>
+    <div class="card-body">
+        <canvas id="ganttChart" style="height: 350px;"></canvas>
+    </div>
+</div>
+
+<script>
+    const allData = JSON.parse(document.getElementById('all-data').textContent);
+    const semanas = Array.from({ length: allData.semanas }, (_, i) => `Microciclo ${i + 1}`);
+    const chartData = {
+        labels: allData.chart_porcentaje_fuerza_tecnica.labels,
+        datasets: allData.chart_porcentaje_fuerza_tecnica.datasets
+    }
+    const total_microciclos = [];
+    const total_microciclos_a = [];
+    const total_microciclos_t = [];
+    const total_microciclos_r = [];
+    const cantidad_micriciclos = allData.semanas || 0;
+    const aValue = allData.porcentajes_atr.acumulacion || 0;
+    const tValue = allData.porcentajes_atr.transformacion || 0;
+    const rValue = allData.porcentajes_atr.realizacion || 0;
+
+    // Ciclos por semanas
+
+for (let i = 0; i < cantidad_micriciclos; i++) {
+    let ciclo = (i + 1).toString();
+    total_microciclos.push(ciclo);
+}
+
+function ciclos_periodos(){
+    let rellenar_ciclos_a = (total_microciclos.length - aValue)
+    let ceros_a = Array(rellenar_ciclos_a).fill(0)
+    for (let i = 0; i < aValue; i++) {
+        total_microciclos_a.push(i + 1);
+    }
+    total_microciclos_a.push(...ceros_a)
+
+    let ceros_t_atras = Array(aValue).fill(0)
+    let ceros_t_delante = Array(rValue).fill(0)
+    total_microciclos_t.push(...ceros_t_atras);
+    let ciclos_t = aValue + 1;
+    for (let i = 0; i < tValue; i++) {
+        total_microciclos_t.push(ciclos_t);
+        ciclos_t += 1;
+    }
+    total_microciclos_t.push(...ceros_t_delante);
+
+    let ceros_r = Array(aValue+tValue).fill(0)
+    total_microciclos_r.push(...ceros_r);
+    let ciclos_r = ciclos_t;
+    for (let i = 0; i < rValue; i++) {
+        total_microciclos_r.push(ciclos_r);
+        ciclos_r += 1;
+    }
+}
+
+ciclos_periodos()
+
+new Chart(document.getElementById('ganttChart'), {
+    type: 'bar',
+    data: {
+        labels: total_microciclos,
+        datasets: [
+        {
+            label: 'Acumulación (A)',
+            data: total_microciclos_a,
+            backgroundColor: 'rgba(255,99,132,0.6)',
+            stack: 'Fases'
+        },
+        {
+            label: 'Transformación (T)',
+            data: total_microciclos_t,
+            backgroundColor: 'rgba(75,192,192,0.6)',
+            stack: 'Fases'
+        },
+        {
+            label: 'Realización (R)',
+            data: total_microciclos_r,
+            backgroundColor: 'rgba(54,162,235,0.6)',
+            stack: 'Fases'
+        }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y',
+        scales: { x: { stacked: true }, y: { stacked: true } },
+        plugins: { legend: { position: 'bottom' } }
+    }
+    });
+
+    //Gráfico de Intensidad
+    new Chart(document.getElementById('intensityChart'), {
+        type: 'line',
+        data: {
+            labels: semanas,
+            datasets: Object.entries(allData.intensidades).map(([ejercicio, datos]) => ({
+                label: ejercicio.charAt(0).toUpperCase() + ejercicio.slice(1),
+                data: datos,
+                borderWidth: 2,
+                tension: 0.3
+            }))
+        },
+        options: {
+            responsive: true,
+            scales: { y: { beginAtZero: false, min: 70, max: 110 } }
+        }
+    });
+
+    // gráfico fuerza vs tecnica:
+    new Chart(document.getElementById('volumeChart'), {
+        type: 'bar',
+        data: allData.chart_porcentaje_fuerza_tecnica, 
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    stacked: true,
+                    position: 'left',
+                    title: { display: true, text: '% Distribución' },
+                    grid: { display: true }
+                },
+                y1: {
+                    position: 'right',
+                    title: { display: true, text: 'Repeticiones' },
+                    grid: { drawOnChartArea: false } 
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top' 
+                }
+            }
+        }
+    });
+
+    function llenarTabla(id, datos) {
+        const tbody = document.getElementById(id);
+        tbody.innerHTML = datos.map((reps, i) => `
+            <tr>
+                <td>${i + 1}</td>
+                <td>${reps}</td>
+            </tr>
+        `).join('');
+    }
+
+    llenarTabla('tabla-acumulacion', allData.repeticiones.acumulacion);
+    llenarTabla('tabla-transformacion', allData.repeticiones.transformacion);
+    llenarTabla('tabla-realizacion', allData.repeticiones.realizacion);
+</script>
+{% endblock %}

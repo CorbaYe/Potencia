@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+import json
 
 class Holiday(models.Model):
     date = models.DateField(unique=True)
@@ -77,3 +78,34 @@ def guardar_perfil_usuario(sender, instance, **kwargs):
         instance.profile.save()
     except Profile.DoesNotExist:    
         Profile.objects.create(user=instance)
+        
+class Macrociclo(models.Model):
+    entrenador = models.ForeignKey('Entrenadores', on_delete=models.CASCADE)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    total_dias = models.PositiveIntegerField()
+    num_semanas = models.PositiveIntegerField()
+    porcentaje_acumulacion = models.PositiveIntegerField()
+    porcentaje_transformacion = models.PositiveIntegerField()
+    porcentaje_realizacion = models.PositiveIntegerField()
+    repeticiones_acumulacion = models.TextField()
+    repeticiones_transformacion = models.TextField()
+    repeticiones_realizacion = models.TextField()
+    porcentajes_tecnico = models.TextField()  
+    intensidades = models.TextField()
+    
+    def get_intensidades(self):
+        return json.loads(self.intensidades)
+    
+    def __str__(self):
+        return f"Macrociclo {self.id} - {self.entrenador.nombre}"
+    
+class Semana(models.Model):
+    macrociclo = models.ForeignKey(Macrociclo, related_name='semanas', on_delete=models.CASCADE)
+    iso_semana = models.PositiveIntegerField()
+    iso_anio = models.PositiveIntegerField()
+    inicio = models.DateField()
+    fin = models.DateField()
+    dias_entrenamiento = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"Semana {self.iso_semana} ({self.inicio} - {self.fin})"
