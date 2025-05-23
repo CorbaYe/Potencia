@@ -2,8 +2,15 @@
 
 {% block contenido %}
 
+{{ semanas_tabla|json_script:"semanas-tabla" }}
 {{ all_data|json_script:"all-data" }}
-<h2 class="label-color-fff">Resumen del Macrociclo - {{ macrociclo.entrenador }}</h2>
+<div class="container">
+    <h2 class="label-color-fff">Resumen del Macrociclo - {{ macrociclo.entrenador }}</h2>
+    <button type="button" class="btn btn-outline-light rounded-pill px-4 py-2 float-end"
+        style="width: 200px; margin-bottom: 15px;" onclick="enviarMicrociclos()">
+        <i class="fas fa-chart-line me-2"></i>Ver microciclos
+    </button>
+</div>
 <div class="card mb-4">
     <div class="card-body">
         <table class="table table-bordered">
@@ -105,6 +112,7 @@
 
 <script>
     const allData = JSON.parse(document.getElementById('all-data').textContent);
+    const datosSemana = JSON.parse(document.getElementById('semanas-tabla').textContent);
     const semanas = Array.from({ length: allData.semanas }, (_, i) => `Microciclo ${i + 1}`);
     const chartData = {
         labels: allData.chart_porcentaje_fuerza_tecnica.labels,
@@ -248,5 +256,17 @@
     llenarTabla('tabla-acumulacion', allData.repeticiones.acumulacion);
     llenarTabla('tabla-transformacion', allData.repeticiones.transformacion);
     llenarTabla('tabla-realizacion', allData.repeticiones.realizacion);
+
+    
+
+    function enviarMicrociclos() {
+        const dias = datosSemana.num_semanas;
+        const diasParam = dias.map(semana => semana.dias_entrenamiento);
+        const diasPorSemana = encodeURIComponent(JSON.stringify(diasParam));
+        
+        const numMicrociclos = allData.semanas;
+        const url = `/microciclos?cant_microciclos=${numMicrociclos}&num_dias=${diasPorSemana}`;
+        window.location.href = url;
+    }
 </script>
 {% endblock %}

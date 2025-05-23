@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout, update_session_auth_hash
 from django.utils import timezone
 from .forms import DaysForm, RegistroEntrenadorForm, AtletaForm, EjerciciosForm, EditarPerfilForm
-from .models import Holiday, Atletas, Ejercicios, Entrenadores, Macrociclo
+from .models import Holiday, Atletas, Ejercicios, Entrenadores, Macrociclo, Semana
 from django.http import JsonResponse
 import json
 from django.contrib.auth.forms import PasswordChangeForm
@@ -293,6 +293,16 @@ def macrociclos(request):
                     porcentajes_tecnico=porcentajes_ejercicios,
                     intensidades=intensidades
                 )
+
+                for week in weeks:
+                    Semana.objects.create(
+                        macrociclo=macrociclo, 
+                        iso_semana=week['iso_week'],
+                        iso_anio=week['iso_year'],
+                        inicio=week['start'],
+                        fin=week['end'],
+                        dias_entrenamiento=week['days_count']
+                    )
         
     return render(request, 'macrociclos.html', {
         'form': form, 
@@ -307,7 +317,11 @@ def detalle_macrociclo(request, macrociclo_id):
         id=macrociclo_id, 
         entrenador__user=request.user
     )
+    semanas = macrociclo.semanas.all().order_by('inicio')
     context = {
+        'semanas_tabla': {
+            'num_semanas': list(semanas.values('dias_entrenamiento', 'inicio', 'fin', 'iso_anio', 'iso_semana')),
+        },
         'macrociclo': macrociclo,
         'all_data': {
             'semanas': macrociclo.num_semanas,
