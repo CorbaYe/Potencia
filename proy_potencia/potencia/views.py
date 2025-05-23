@@ -8,8 +8,8 @@ from django.utils import timezone
 from .forms import DaysForm, RegistroEntrenadorForm, AtletaForm, EjerciciosForm
 from .models import Holiday, Atletas, Ejercicios, Entrenadores
 from .forms import PerfilForm, FotoPerfilForm, CustomPasswordChangeForm  # ajusta los nombres
-from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
-from django.urls import reverse_lazy
+ 
+from django.http import JsonResponse
 
 
 
@@ -255,6 +255,10 @@ def macrociclos(request):
     return render(request, 'macrociclos.html', {'form': form, 'results': results})
 
 
+def dashboard_halterofilia(request):
+    return render(request, 'teoria.html')
+
+
 #mi cuenta
 from .forms import EditarPerfilForm, EditarFotoPerfilForm  # Asegúrate de importar estos formularios
 from django.contrib.auth.forms import PasswordChangeForm
@@ -300,12 +304,22 @@ def configuracion_cuenta(request):
 
 
 
-class CambiarContrasenaView(PasswordChangeView):
-    template_name = 'cambiar_contrasena.html'  # Crea esta plantilla luego
-    success_url = reverse_lazy('cambiar_contrasena_done')
+@login_required
+def cambiar_contrasena_ajax(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return JsonResponse({'success': True, 'message': 'Contraseña actualizada correctamente.'})
+        else:
+            errors = {}
+            for field in form.errors:
+                errors[field] = form.errors[field].as_text()
+            return JsonResponse({'success': False, 'errors': errors}, status=400)
+    return JsonResponse({'error': 'Método no permitido'}, status=405)
 
-class CambiarContrasenaDoneView(PasswordChangeDoneView):
-    template_name = 'cambiar_contrasena_done.html'  # También crea esta plantilla
+
 
 
 

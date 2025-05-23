@@ -2,7 +2,8 @@ from django.urls import path
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import CambiarContrasenaView, CambiarContrasenaDoneView
+
+
 
 
 urlpatterns = [
@@ -19,7 +20,8 @@ urlpatterns = [
     path('atletas/eliminar/<int:pk>/', views.eliminar_atleta, name='eliminar_atleta'),
     path('macrociclos', views.macrociclos, name='macrociclos'),
     path('microciclos', views.microciclos, name='microciclos'),
-    #micuenta
     path('cuenta/configuracion/', views.configuracion_cuenta, name='configuracion_cuenta'),
+    path('cuenta/cambiar-contrasena/ajax/', views.cambiar_contrasena_ajax, name='cambiar_contrasena_ajax'),
+    path('dashboard/', views.dashboard_halterofilia, name='dashboard_halterofilia'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
