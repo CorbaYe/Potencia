@@ -65,7 +65,7 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
-# Crear automáticamente un perfil al crear un usuario
+
 @receiver(post_save, sender=User)
 def crear_perfil_usuario(sender, instance, created, **kwargs):
     if created:
