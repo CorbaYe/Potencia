@@ -164,4 +164,35 @@
       {% endif %}
     {% endif %}
 </div>
+
+<form method="post" id="macrociclo-form">
+  {% csrf_token %}
+  <div id="mi-formulario" style="display: none;">
+    {{ form.as_p }}
+  </div>
+  <input type="hidden" name="porcentajes_ejercicios" id="id_porcentajes_ejercicios">
+  <input type="hidden" name="intensidades" id="id_intensidades">
+  <input type="hidden" name="repet_acumulacion" id="id_repet_acumulacion">
+  <input type="hidden" name="repet_transformacion" id="id_repet_transformacion">
+  <input type="hidden" name="repet_realizacion" id="id_repet_realizacion">
+  <button type="submit" name="accion" value="guardar" class="btn btn-primary">Guardar Macrociclo</button>
+</form>
+
+<script>
+  document.getElementById('macrociclo-form').onsubmit = function() {
+    porcentajeEjercicios = {
+      '% Ejercicios Técnico': porcentajeEjerciciosTecnicos,
+      '% Ejercicios Fuerza': porcentajeEjerciciosFuerza,
+      'Repeticiones totales': totalRepeticiones,
+      'Cantidad ejercicios Técnicas': repTec,
+      'Cantidad ejercicios Fuerza': repFue
+    }
+
+    document.getElementById('id_porcentajes_ejercicios').value = JSON.stringify(porcentajeEjercicios);
+    document.getElementById('id_intensidades').value = JSON.stringify(intensidad);
+    document.getElementById('id_repet_acumulacion').value = JSON.stringify(resultsData.repet_acumulacion || []);
+    document.getElementById('id_repet_transformacion').value = JSON.stringify(resultsData.repet_transformacion || []);
+    document.getElementById('id_repet_realizacion').value = JSON.stringify(resultsData.repet_realizacion || []);
+  };
+</script>
 {% endblock %}
