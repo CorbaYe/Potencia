@@ -2,18 +2,13 @@ import datetime
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import logout
+from django.contrib.auth import logout, update_session_auth_hash
 from django.utils import timezone
-from .forms import DaysForm, RegistroEntrenadorForm, AtletaForm, EjerciciosForm
-from .models import Holiday, Atletas, Ejercicios, Entrenadores
-from .forms import PerfilForm, FotoPerfilForm, CustomPasswordChangeForm 
- 
-from django.http import JsonResponse
-
-
+from .forms import DaysForm, RegistroEntrenadorForm, AtletaForm, EjerciciosForm, EditarPerfilForm
 from .models import Holiday, Atletas, Ejercicios, Entrenadores, Macrociclo
+from django.http import JsonResponse
 import json
-from django.forms.models import model_to_dict
+from django.contrib.auth.forms import PasswordChangeForm
 
 def index(request):
     return render(request, 'index.html')
@@ -115,8 +110,6 @@ def eliminar_plan(request, pk):
         'macrociclo_a_eliminar': macrociclo
     })
 
-
-
 @login_required
 def atletas(request):
     entrenador = request.user.entrenadores
@@ -207,12 +200,11 @@ def macrociclos(request):
                 # Ajustar al próximo lunes si hoy no es lunes
                 if today.weekday() != 0:
                     days_to_next_monday = (7 - today.weekday()) % 7
-                    days_to_next_monday = days_to_next_monday or 7  # Asegurar que no sea cero
+                    days_to_next_monday = days_to_next_monday or 7 
                     start_date = today + datetime.timedelta(days=days_to_next_monday)
                 else:
                     start_date = today
-                
-                # Se define la fecha final según el total de días
+                    
                 end_date = start_date + datetime.timedelta(days=total_days)
                 
                 # Obtener los festivos desde la BD y convertirlos a objeto date
@@ -227,14 +219,12 @@ def macrociclos(request):
                 week_number = 1
                 current_date = start_date
                 
-                # Recorrer cada semana (de lunes a viernes)
                 while current_date < end_date:
                     week_working_days = []
-                    for offset in range(5):  # lunes a viernes
+                    for offset in range(5): 
                         day = current_date + datetime.timedelta(days=offset)
                         if day >= end_date:
                             break
-                        # Si el día es festivo, se omite
                         if day in holidays:
                             continue
                         week_working_days.append(day)
@@ -249,7 +239,6 @@ def macrociclos(request):
                         })
                         week_number += 1
                     
-                    # Avanzar al próximo lunes (sumamos 7 días)
                     current_date += datetime.timedelta(days=7)
                 
                 calculos_porcentaje = {
@@ -263,7 +252,7 @@ def macrociclos(request):
                     'repeticiones_trasformacion': calculo_repeticiones_x_semana(calculos_porcentaje['t_transformacion'], repeticiones_transformacion, 'transformacion'),
                     'repeticiones_realizacion': calculo_repeticiones_x_semana(calculos_porcentaje['r_realizacion'], repeticiones_realizacion, 'realizacion'),
                 }
-                # print(repeticiones_x_semana['repeticiones_acumulacion'])
+                
             elif total_days > 98:
                 mensaje_alerta = 'La cantidad de días excede la tiempo máximo para un ATR (3 meses y medio - 98 días)'
             else:
@@ -304,7 +293,6 @@ def macrociclos(request):
                     porcentajes_tecnico=porcentajes_ejercicios,
                     intensidades=intensidades
                 )
-            #return redirect('detalle_macrociclo', macrociclo_id=macrociclo.id)
         
     return render(request, 'macrociclos.html', {
         'form': form, 
@@ -388,11 +376,6 @@ def dashboard_halterofilia(request):
     return render(request, 'teoria.html')
 
 
-#mi cuenta
-from .forms import EditarPerfilForm, EditarFotoPerfilForm  # Asegúrate de importar estos formularios
-from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth import update_session_auth_hash
-
 @login_required
 def configuracion_cuenta(request):
     user = request.user
@@ -427,10 +410,9 @@ def configuracion_cuenta(request):
 
     return render(request, 'configuracion_cuenta.html', {
         'form': perfil_form,
-        'foto_form': perfil_form,  # Ya no necesitas uno aparte
+        'foto_form': perfil_form, 
         'password_form': password_form,
     })
-
 
 
 @login_required
@@ -447,13 +429,6 @@ def cambiar_contrasena_ajax(request):
                 errors[field] = form.errors[field].as_text()
             return JsonResponse({'success': False, 'errors': errors}, status=400)
     return JsonResponse({'error': 'Método no permitido'}, status=405)
-
-
-
-
-
-
-# mi cuenta
 
 def diccionario_porcentajes_repeticiones(cantidad_semanas, repeticiones, tipo_fase):
     diccionario_porcentajes = {

@@ -121,72 +121,72 @@
 
     // Ciclos por semanas
 
-for (let i = 0; i < cantidad_micriciclos; i++) {
-    let ciclo = (i + 1).toString();
-    total_microciclos.push(ciclo);
-}
-
-function ciclos_periodos(){
-    let rellenar_ciclos_a = (total_microciclos.length - aValue)
-    let ceros_a = Array(rellenar_ciclos_a).fill(0)
-    for (let i = 0; i < aValue; i++) {
-        total_microciclos_a.push(i + 1);
+    for (let i = 0; i < cantidad_micriciclos; i++) {
+        let ciclo = (i + 1).toString();
+        total_microciclos.push(ciclo);
     }
-    total_microciclos_a.push(...ceros_a)
 
-    let ceros_t_atras = Array(aValue).fill(0)
-    let ceros_t_delante = Array(rValue).fill(0)
-    total_microciclos_t.push(...ceros_t_atras);
-    let ciclos_t = aValue + 1;
-    for (let i = 0; i < tValue; i++) {
-        total_microciclos_t.push(ciclos_t);
-        ciclos_t += 1;
-    }
-    total_microciclos_t.push(...ceros_t_delante);
-
-    let ceros_r = Array(aValue+tValue).fill(0)
-    total_microciclos_r.push(...ceros_r);
-    let ciclos_r = ciclos_t;
-    for (let i = 0; i < rValue; i++) {
-        total_microciclos_r.push(ciclos_r);
-        ciclos_r += 1;
-    }
-}
-
-ciclos_periodos()
-
-new Chart(document.getElementById('ganttChart'), {
-    type: 'bar',
-    data: {
-        labels: total_microciclos,
-        datasets: [
-        {
-            label: 'Acumulación (A)',
-            data: total_microciclos_a,
-            backgroundColor: 'rgba(255,99,132,0.6)',
-            stack: 'Fases'
-        },
-        {
-            label: 'Transformación (T)',
-            data: total_microciclos_t,
-            backgroundColor: 'rgba(75,192,192,0.6)',
-            stack: 'Fases'
-        },
-        {
-            label: 'Realización (R)',
-            data: total_microciclos_r,
-            backgroundColor: 'rgba(54,162,235,0.6)',
-            stack: 'Fases'
+    function ciclos_periodos() {
+        let rellenar_ciclos_a = (total_microciclos.length - aValue)
+        let ceros_a = Array(rellenar_ciclos_a).fill(0)
+        for (let i = 0; i < aValue; i++) {
+            total_microciclos_a.push(i + 1);
         }
-        ]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        indexAxis: 'y',
-        scales: { x: { stacked: true }, y: { stacked: true } },
-        plugins: { legend: { position: 'bottom' } }
+        total_microciclos_a.push(...ceros_a)
+
+        let ceros_t_atras = Array(aValue).fill(0)
+        let ceros_t_delante = Array(rValue).fill(0)
+        total_microciclos_t.push(...ceros_t_atras);
+        let ciclos_t = aValue + 1;
+        for (let i = 0; i < tValue; i++) {
+            total_microciclos_t.push(ciclos_t);
+            ciclos_t += 1;
+        }
+        total_microciclos_t.push(...ceros_t_delante);
+
+        let ceros_r = Array(aValue + tValue).fill(0)
+        total_microciclos_r.push(...ceros_r);
+        let ciclos_r = ciclos_t;
+        for (let i = 0; i < rValue; i++) {
+            total_microciclos_r.push(ciclos_r);
+            ciclos_r += 1;
+        }
     }
+
+    ciclos_periodos()
+
+    new Chart(document.getElementById('ganttChart'), {
+        type: 'bar',
+        data: {
+            labels: total_microciclos,
+            datasets: [
+                {
+                    label: 'Acumulación (A)',
+                    data: total_microciclos_a,
+                    backgroundColor: 'rgba(255,99,132,0.6)',
+                    stack: 'Fases'
+                },
+                {
+                    label: 'Transformación (T)',
+                    data: total_microciclos_t,
+                    backgroundColor: 'rgba(75,192,192,0.6)',
+                    stack: 'Fases'
+                },
+                {
+                    label: 'Realización (R)',
+                    data: total_microciclos_r,
+                    backgroundColor: 'rgba(54,162,235,0.6)',
+                    stack: 'Fases'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: 'y',
+            scales: { x: { stacked: true }, y: { stacked: true } },
+            plugins: { legend: { position: 'bottom' } }
+        }
     });
 
     //Gráfico de Intensidad
@@ -210,7 +210,7 @@ new Chart(document.getElementById('ganttChart'), {
     // gráfico fuerza vs tecnica:
     new Chart(document.getElementById('volumeChart'), {
         type: 'bar',
-        data: allData.chart_porcentaje_fuerza_tecnica, 
+        data: allData.chart_porcentaje_fuerza_tecnica,
         options: {
             responsive: true,
             maintainAspectRatio: false,
@@ -224,12 +224,12 @@ new Chart(document.getElementById('ganttChart'), {
                 y1: {
                     position: 'right',
                     title: { display: true, text: 'Repeticiones' },
-                    grid: { drawOnChartArea: false } 
+                    grid: { drawOnChartArea: false }
                 }
             },
             plugins: {
                 legend: {
-                    position: 'top' 
+                    position: 'top'
                 }
             }
         }

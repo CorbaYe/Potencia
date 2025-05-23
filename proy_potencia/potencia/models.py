@@ -42,8 +42,7 @@ class Atletas(models.Model):
 
     def __str__(self):
         return self.nombre
-    
-#mi cuenta
+
 class Ejercicios(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
@@ -78,7 +77,7 @@ def guardar_perfil_usuario(sender, instance, **kwargs):
         instance.profile.save()
     except Profile.DoesNotExist:    
         Profile.objects.create(user=instance)
-        
+
 class Macrociclo(models.Model):
     entrenador = models.ForeignKey('Entrenadores', on_delete=models.CASCADE)
     fecha_creacion = models.DateTimeField(auto_now_add=True)

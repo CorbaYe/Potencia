@@ -3,11 +3,7 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 
-
-
-
-urlpatterns = [
-    
+urlpatterns = [ 
     path('', views.index, name='index'),
     path('registro/', views.registro, name='registro'),
     path('home/', views.home, name='home'),
@@ -26,5 +22,4 @@ urlpatterns = [
     path('cuenta/configuracion/', views.configuracion_cuenta, name='configuracion_cuenta'),
     path('cuenta/cambiar-contrasena/ajax/', views.cambiar_contrasena_ajax, name='cambiar_contrasena_ajax'),
     path('dashboard/', views.dashboard_halterofilia, name='dashboard_halterofilia'),
-
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

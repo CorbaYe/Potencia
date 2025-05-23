@@ -20,7 +20,7 @@
             </div>
             <div class="card-body">
                 <p class="lead label-color-w">¿Estás seguro que deseas eliminar el plan?</p>
-                
+
                 <form method="post" action="{% url 'eliminar_plan' macrociclo_a_eliminar.id %}">
                     {% csrf_token %}
                     <div class="mt-4">
@@ -64,14 +64,15 @@
                                 Ciclos transformación
                                 <span class="badge bg-primary rounded-pill">{{ plan.porcentaje_transformacion }}</span>
                             </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Ciclos realización
                                 <span class="badge bg-primary rounded-pill">{{ plan.porcentaje_realizacion }}</span>
                             </li>
                         </ul>
                     </div>
                     <div class="card-footer">
-                        <a href="{% url 'detalle_macrociclo' plan.id %}" type="button" class="btn btn-outline-light rounded-pill px-4 py-2 float-end" style="width: 200px">
+                        <a href="{% url 'detalle_macrociclo' plan.id %}" type="button"
+                            class="btn btn-outline-light rounded-pill px-4 py-2 float-end" style="width: 200px">
                             <i class="fas fa-chart-line me-2"></i>Ver macrociclo
                         </a>
                         <a href="{% url 'eliminar_plan' plan.id %}" class="btn btn-sm btn-outline-danger">

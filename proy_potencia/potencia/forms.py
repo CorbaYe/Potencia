@@ -17,7 +17,6 @@ class DaysForm(forms.Form):
     t_transformacion = forms.IntegerField(required=True)
     r_realizacion = forms.IntegerField(required=True)
 
-
 class RegistroEntrenadorForm(UserCreationForm):
     nombre = forms.CharField(
         max_length=100, 
@@ -50,7 +49,6 @@ class RegistroEntrenadorForm(UserCreationForm):
             'username': forms.TextInput(attrs={'placeholder': 'Usuario'}),
         }
 
-
     def clean_username(self):
         usuario = self.cleaned_data["username"]
         if User.objects.filter(username=usuario).exists():
@@ -76,7 +74,6 @@ class RegistroEntrenadorForm(UserCreationForm):
                 genero=self.cleaned_data["genero"],
             )
         return user
-
 
 class AtletaForm(forms.ModelForm):
     class Meta:
@@ -106,7 +103,6 @@ class EjerciciosForm(forms.ModelForm):
             'descripcion': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
-# mi cuenta
 class EditarPerfilForm(forms.ModelForm):
     nombre = forms.CharField(
         max_length=100,
@@ -177,21 +173,16 @@ class EditarFotoPerfilForm(forms.ModelForm):
         model = Profile
         fields = ['foto_perfil']
 
-
-
-# Formulario para editar datos del usuario
 class PerfilForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email', 'username']
 
-# Formulario para cambiar la foto de perfil
 class FotoPerfilForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['foto_perfil']
 
-# Formulario para cambiar contraseña con validaciones propias de Django
 class CustomPasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(
         label="Contraseña actual",

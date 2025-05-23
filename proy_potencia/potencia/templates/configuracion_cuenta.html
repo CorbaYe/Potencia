@@ -3,7 +3,6 @@
 
 {% block contenido %}
 <style>
-
     :root {
         --verde-neon: #8af704;
         --fondo-oscuro: #121212;
@@ -11,7 +10,8 @@
         --texto-claro: #f5f5f5;
         --borde-color: #444;
         --label-color: #cccccc;
-    } 
+    }
+
     body {
         background-color: var(--fondo-oscuro);
     }
@@ -137,17 +137,16 @@
         padding: 0.3rem 0.7rem;
         cursor: pointer;
     }
-
 </style>
 
 <div class="container py-3">
     {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        {% endfor %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
     {% endif %}
 
     <!-- FORMULARIO DE INFORMACIÓN PERSONAL -->
@@ -178,9 +177,9 @@
                     <label class="form-label w-100">Foto de Perfil</label>
                     <div class="profile-image-wrapper mb-3">
                         {% if user.profile.foto_perfil %}
-                            <img src="{{ user.profile.foto_perfil.url }}" alt="Foto de perfil">
+                        <img src="{{ user.profile.foto_perfil.url }}" alt="Foto de perfil">
                         {% else %}
-                            <img src="https://via.placeholder.com/140" alt="No image">
+                        <img src="https://via.placeholder.com/140" alt="No image">
                         {% endif %}
                     </div>
                     <div class="input-group-custom w-100">
@@ -203,8 +202,6 @@
             </div>
         </form>
     </div>
-
-    <!-- BOTÓN CAMBIAR CONTRASEÑA -->
     <div class="text-end mb-2">
         <button class="btn btn-success btn-toggle" onclick="togglePasswordForm()">
             <i class="fas fa-key me-2"></i>Cambiar Contraseña
@@ -212,106 +209,99 @@
     </div>
 
     <!-- FORMULARIO CAMBIO DE CONTRASEÑA -->
-        <!-- MENSAJES DE ERROR DE CONTRASEÑA -->
     {% if password_form.non_field_errors %}
-        <div class="alert alert-danger mt-3">
-            {% for error in password_form.non_field_errors %}
-                <div>{{ error }}</div>
-            {% endfor %}
-        </div>
+    <div class="alert alert-danger mt-3">
+        {% for error in password_form.non_field_errors %}
+        <div>{{ error }}</div>
+        {% endfor %}
+    </div>
     {% endif %}
+    <div id="password-section" class="form-card password-section">
+        <div class="form-section-title"><i class="fas fa-lock me-2"></i>Actualizar Contraseña</div>
+        <form id="password-form">
+            {% csrf_token %}
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div id="error-general" class="form-error mb-3"></div>
 
-   <!-- FORMULARIO CAMBIO DE CONTRASEÑA AJAX -->
-<div id="password-section" class="form-card password-section">
-    <div class="form-section-title"><i class="fas fa-lock me-2"></i>Actualizar Contraseña</div>
-    <form id="password-form">
-        {% csrf_token %}
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div id="error-general" class="form-error mb-3"></div>
-
-                <div class="input-group-custom">
-                    <label class="form-label">Contraseña actual</label>
-                    <input type="password" name="old_password" class="form-control" required>
-                    <div class="form-error" id="error-old_password"></div>
-                </div>
-                <div class="input-group-custom">
-                    <label class="form-label">Nueva contraseña</label>
-                    <input type="password" name="new_password1" class="form-control" required>
-                    <div class="form-error" id="error-new_password1"></div>
-                </div>
-                <div class="input-group-custom">
-                    <label class="form-label">Confirmar nueva contraseña</label>
-                    <input type="password" name="new_password2" class="form-control" required>
-                    <div class="form-error" id="error-new_password2"></div>
+                    <div class="input-group-custom">
+                        <label class="form-label">Contraseña actual</label>
+                        <input type="password" name="old_password" class="form-control" required>
+                        <div class="form-error" id="error-old_password"></div>
+                    </div>
+                    <div class="input-group-custom">
+                        <label class="form-label">Nueva contraseña</label>
+                        <input type="password" name="new_password1" class="form-control" required>
+                        <div class="form-error" id="error-new_password1"></div>
+                    </div>
+                    <div class="input-group-custom">
+                        <label class="form-label">Confirmar nueva contraseña</label>
+                        <input type="password" name="new_password2" class="form-control" required>
+                        <div class="form-error" id="error-new_password2"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="mt-3 text-center">
-            <button type="submit" class="btn btn-success">
-                <i class="fas fa-lock me-2"></i>Guardar Nueva Contraseña
-            </button>
-        </div>
-    </form>
-</div>
+            <div class="mt-3 text-center">
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-lock me-2"></i>Guardar Nueva Contraseña
+                </button>
+            </div>
+        </form>
+    </div>
 
-<script>
-    function togglePasswordForm() {
-        const section = document.getElementById('password-section');
-        section.classList.toggle('show');
-    }
+    <script>
+        function togglePasswordForm() {
+            const section = document.getElementById('password-section');
+            section.classList.toggle('show');
+        }
 
-    const form = document.getElementById('password-form');
-    form.addEventListener('submit', async function (e) {
-        e.preventDefault();
+        const form = document.getElementById('password-form');
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
 
-        const formData = new FormData(form);
-        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            const formData = new FormData(form);
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-        // Limpiar errores previos
-        document.querySelectorAll('.form-error').forEach(el => el.textContent = '');
+            // Limpiar errores previos
+            document.querySelectorAll('.form-error').forEach(el => el.textContent = '');
 
-        try {
-            const response = await fetch("{% url 'cambiar_contrasena_ajax' %}", {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': csrfToken,
-                },
-                body: formData
-            });
+            try {
+                const response = await fetch("{% url 'cambiar_contrasena_ajax' %}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                    },
+                    body: formData
+                });
 
-            const data = await response.json();
+                const data = await response.json();
 
-            if (response.ok) {
-                // Éxito
-                document.getElementById('error-general').innerHTML = `<div class="alert alert-success">${data.message}</div>`;
-                form.reset();
-            } else {
-                // Errores específicos
-                if (data.errors) {
-                    for (let field in data.errors) {
-                        const errorId = document.getElementById(`error-${field}`);
-                        if (errorId) {
-                            errorId.textContent = data.errors[field].replace(/\* /g, "");
-                        } else {
-                            document.getElementById('error-general').textContent = data.errors[field];
+                if (response.ok) {
+                    document.getElementById('error-general').innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+                    form.reset();
+                } else {
+                    if (data.errors) {
+                        for (let field in data.errors) {
+                            const errorId = document.getElementById(`error-${field}`);
+                            if (errorId) {
+                                errorId.textContent = data.errors[field].replace(/\* /g, "");
+                            } else {
+                                document.getElementById('error-general').textContent = data.errors[field];
+                            }
                         }
                     }
                 }
+
+            } catch (err) {
+                document.getElementById('error-general').textContent = 'Error inesperado. Intenta de nuevo.';
             }
+        });
+    </script>
 
-        } catch (err) {
-            document.getElementById('error-general').textContent = 'Error inesperado. Intenta de nuevo.';
+    <script>
+        function togglePasswordForm() {
+            const section = document.getElementById('password-section');
+            section.classList.toggle('show');
         }
-    });
-</script>
-
-
-
-<script>
-    function togglePasswordForm() {
-        const section = document.getElementById('password-section');
-        section.classList.toggle('show');
-    }
-</script>
-{% endblock %}
+    </script>
+    {% endblock %}
