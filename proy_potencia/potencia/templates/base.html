@@ -10,11 +10,15 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="{% static 'css/style_home.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style_microciclos.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/style_microciclos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style_teoria.css' %}">
+
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-      .card { margin-bottom: 1.5rem; } 
+        .card {
+            margin-bottom: 1.5rem;
+        }
     </style>
 </head>
 
@@ -23,16 +27,16 @@
         <div class="row flex-nowrap">
             <div class="col-md-2 col-xl-2 px-0 bg-dark sidebar">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-3 min-vh-100">
-                <div class="container-fluid">
-                    <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
-                        <i class="bi bi-lightning-charge-fill me-2 text-success fs-3"></i>
-                        <strong class="fs-4" style="color: #8af704;">⚡ POTENCIA</strong>
-                    </a>
-                </div>
+                    <div class="container-fluid">
+                        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+                            <i class="bi bi-lightning-charge-fill me-2 text-success fs-3"></i>
+                            <strong class="fs-4" style="color: #8af704;">⚡ POTENCIA</strong>
+                        </a>
+                    </div>
                     <ul class="nav flex-column mt-4 w-100">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-dumbbell me-2"></i> Planes ATR
+                            <a class="nav-link" href="{% url 'planes' %}">
+                                <i class="fas fa-dumbbell me-2"></i> Mis Planes
                             </a>
                         </li>
                         <li class="nav-item">
@@ -45,14 +49,17 @@
                                 <i class="fas fa-weight"></i> Batería de ejercicios
                             </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-user-circle me-2"></i> Mi cuenta
+                            <a class="nav-link" href="{% url 'configuracion_cuenta' %}">
+                                <i class="fas fa-user-cog me-2"></i> Mi cuenta
                             </a>
+
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-cog me-2"></i> Configuración
+                            <a class="nav-link" href="{% url 'dashboard_halterofilia' %}">
+                                <i class="fas fa-book me-2"></i> Teoria
                             </a>
                         </li>
                     </ul>
@@ -73,6 +80,8 @@
     <script src="{% static 'js/script_grafico.js' %}"></script>
     <script src="{% static 'js/script_microciclos.js' %}"></script>
     <script src="{% static 'js/script_atletas.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+
 </body>
 
 </html>

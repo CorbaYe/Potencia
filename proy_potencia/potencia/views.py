@@ -1,12 +1,14 @@
 import datetime
 from django.contrib import messages
-#from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import logout
+from django.contrib.auth import logout, update_session_auth_hash
 from django.utils import timezone
-from .forms import DaysForm, RegistroEntrenadorForm, AtletaForm, EjerciciosForm
-from .models import Holiday, Atletas, Ejercicios, Entrenadores
+from .forms import DaysForm, RegistroEntrenadorForm, AtletaForm, EjerciciosForm, EditarPerfilForm
+from .models import Holiday, Atletas, Ejercicios, Entrenadores, Macrociclo, Semana
+from django.http import JsonResponse
+import json
+from django.contrib.auth.forms import PasswordChangeForm
 
 def index(request):
     return render(request, 'index.html')
@@ -84,10 +86,34 @@ def eliminar_ejercicio(request, pk):
         'ejercicio_a_eliminar': ejercicio
     })
 
+@login_required
+def planes(request):
+    entrenador = request.user.entrenadores  
+    macrociclos = entrenador.macrociclo_set.all()
+    return render(request, 'planes.html', {
+        'macrociclos': macrociclos
+    })
+
+@login_required
+def eliminar_plan(request, pk):
+    macrociclo = get_object_or_404(Macrociclo, pk=pk, entrenador=request.user.entrenadores)
+    
+    if request.method == 'POST':
+        macrociclo_id = macrociclo.id
+        macrociclo.delete()
+        messages.success(request, f'Plan #{macrociclo_id} eliminado correctamente')
+        return redirect('planes')
+    
+    return render(request, 'planes.html', {
+        'macrociclo': Macrociclo.objects.all(),
+        'confirmar_eliminar': True,
+        'macrociclo_a_eliminar': macrociclo
+    })
 
 @login_required
 def atletas(request):
-    atletas = Atletas.objects.all()
+    entrenador = request.user.entrenadores
+    atletas = entrenador.atletas.all()
     form = AtletaForm(request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
@@ -150,6 +176,8 @@ def macrociclos(request):
     if request.method == 'POST':
         form = DaysForm(request.POST)
         if form.is_valid():
+            accion = request.POST.get('accion')
+            entrenador = Entrenadores.objects.get(user=request.user)
             total_days = form.cleaned_data['num_days']
             mensaje_alerta = ''
             weeks = []
@@ -172,12 +200,11 @@ def macrociclos(request):
                 # Ajustar al próximo lunes si hoy no es lunes
                 if today.weekday() != 0:
                     days_to_next_monday = (7 - today.weekday()) % 7
-                    days_to_next_monday = days_to_next_monday or 7  # Asegurar que no sea cero
+                    days_to_next_monday = days_to_next_monday or 7 
                     start_date = today + datetime.timedelta(days=days_to_next_monday)
                 else:
                     start_date = today
-                
-                # Se define la fecha final según el total de días
+                    
                 end_date = start_date + datetime.timedelta(days=total_days)
                 
                 # Obtener los festivos desde la BD y convertirlos a objeto date
@@ -192,14 +219,12 @@ def macrociclos(request):
                 week_number = 1
                 current_date = start_date
                 
-                # Recorrer cada semana (de lunes a viernes)
                 while current_date < end_date:
                     week_working_days = []
-                    for offset in range(5):  # lunes a viernes
+                    for offset in range(5): 
                         day = current_date + datetime.timedelta(days=offset)
                         if day >= end_date:
                             break
-                        # Si el día es festivo, se omite
                         if day in holidays:
                             continue
                         week_working_days.append(day)
@@ -214,7 +239,6 @@ def macrociclos(request):
                         })
                         week_number += 1
                     
-                    # Avanzar al próximo lunes (sumamos 7 días)
                     current_date += datetime.timedelta(days=7)
                 
                 calculos_porcentaje = {
@@ -228,11 +252,17 @@ def macrociclos(request):
                     'repeticiones_trasformacion': calculo_repeticiones_x_semana(calculos_porcentaje['t_transformacion'], repeticiones_transformacion, 'transformacion'),
                     'repeticiones_realizacion': calculo_repeticiones_x_semana(calculos_porcentaje['r_realizacion'], repeticiones_realizacion, 'realizacion'),
                 }
-                # print(repeticiones_x_semana['repeticiones_acumulacion'])
+                
             elif total_days > 98:
                 mensaje_alerta = 'La cantidad de días excede la tiempo máximo para un ATR (3 meses y medio - 98 días)'
             else:
                 mensaje_alerta = 'La cantidad de días no alcanza el tiempo mínimo requerido para un ATR (31 días)'     
+
+            porcentajes_ejercicios = request.POST.get('porcentajes_ejercicios', '[]')
+            intensidades = request.POST.get('intensidades', '{}')
+            rep_acumulacion = request.POST.get('repet_acumulacion', '[]')
+            rep_transformacion = request.POST.get('repet_transformacion', '[]')
+            rep_realizacion = request.POST.get('repet_realizacion', '[]')
 
             results = {
                 'weeks': weeks,
@@ -246,9 +276,173 @@ def macrociclos(request):
                 'repet_acumulacion': repeticiones_x_semana['repeticiones_acumulacion'],
                 'repet_transformacion': repeticiones_x_semana['repeticiones_trasformacion'],
                 'repet_realizacion': repeticiones_x_semana['repeticiones_realizacion']
-        }
-    return render(request, 'macrociclos.html', {'form': form, 'results': results})
+            }
+            if accion == 'guardar':
+                macrociclo = Macrociclo.objects.create(
+                    entrenador=entrenador,
+                    total_dias=total_days,
+                    num_semanas=len(weeks),
+                    porcentaje_acumulacion = results['porcentaje_acumulacion'],
+                    porcentaje_transformacion = results['porcentaje_transformacion'],
+                    porcentaje_realizacion =  results['porcentaje_realizacion'],
 
+                    repeticiones_acumulacion=rep_acumulacion,
+                    repeticiones_transformacion=rep_transformacion,
+                    repeticiones_realizacion=rep_realizacion,
+
+                    porcentajes_tecnico=porcentajes_ejercicios,
+                    intensidades=intensidades
+                )
+
+                for week in weeks:
+                    Semana.objects.create(
+                        macrociclo=macrociclo, 
+                        iso_semana=week['iso_week'],
+                        iso_anio=week['iso_year'],
+                        inicio=week['start'],
+                        fin=week['end'],
+                        dias_entrenamiento=week['days_count']
+                    )
+        
+    return render(request, 'macrociclos.html', {
+        'form': form, 
+        'results': results
+    })
+
+
+@login_required
+def detalle_macrociclo(request, macrociclo_id):
+    macrociclo = get_object_or_404(
+        Macrociclo, 
+        id=macrociclo_id, 
+        entrenador__user=request.user
+    )
+    semanas = macrociclo.semanas.all().order_by('inicio')
+    context = {
+        'semanas_tabla': {
+            'num_semanas': list(semanas.values('dias_entrenamiento', 'inicio', 'fin', 'iso_anio', 'iso_semana')),
+        },
+        'macrociclo': macrociclo,
+        'all_data': {
+            'semanas': macrociclo.num_semanas,
+            'porcentajes_atr': {
+                'acumulacion': macrociclo.porcentaje_acumulacion,
+                'transformacion': macrociclo.porcentaje_transformacion,
+                'realizacion': macrociclo.porcentaje_realizacion
+            },
+            'repeticiones': {
+                'acumulacion': json.loads(macrociclo.repeticiones_acumulacion),
+                'transformacion': json.loads(macrociclo.repeticiones_transformacion),
+                'realizacion': json.loads(macrociclo.repeticiones_realizacion)
+            },
+            'chart_porcentaje_fuerza_tecnica': {
+                'labels': [f"Semana {i+1}" for i in range(macrociclo.num_semanas)],
+                    'datasets':[
+                        {
+                        'label': '% Ejercicios Técnico',
+                        'data': json.loads(macrociclo.porcentajes_tecnico)['% Ejercicios Técnico'],
+                        'backgroundColor': 'rgba(255,206,86,0.6)',
+                        'stack': 'Distribución'
+                    },
+                    {
+                        'label': '% Ejercicios Fuerza',
+                        'data': json.loads(macrociclo.porcentajes_tecnico)['% Ejercicios Fuerza'],
+                        'backgroundColor': 'rgba(153,102,255,0.6)',
+                        'stack': 'Distribución'
+                    },
+                    {
+                        'label': 'Repeticiones totales',
+                        'data':json.loads(macrociclo.porcentajes_tecnico)['Repeticiones totales'],
+                        'borderColor': 'rgb(252, 255, 47)',
+                        'type': 'line',
+                        'borderWidth': 4,
+                        'fill': False,
+                        'yAxisID': 'y1'
+                    },
+                    {
+                        'label': 'Cantidad ejercicios Técnicas',
+                        'data': json.loads(macrociclo.porcentajes_tecnico)['Cantidad ejercicios Técnicas'],
+                        'borderColor': 'rgba(143, 253, 0, 0.6)',
+                        'type': 'line',
+                        'borderWidth': 3,
+                        'borderDash': [5,5],
+                        'fill': False,
+                        'yAxisID': 'y1'
+                    },
+                    {
+                        'label': 'Cantidad ejercicios Fuerza',
+                        'data': json.loads(macrociclo.porcentajes_tecnico)['Cantidad ejercicios Fuerza'],
+                        'borderColor': 'rgba(38, 0, 255, 0.6)',
+                        'type': 'line',
+                        'borderWidth': 3,
+                        'tension': 0.3,
+                        'fill': False,
+                        'yAxisID': 'y1'
+                    }
+                ]
+            },
+            'intensidades': json.loads(macrociclo.intensidades)
+        }
+    }
+    return render(request, 'detalle_macrociclo.html', context)
+
+def dashboard_halterofilia(request):
+    return render(request, 'teoria.html')
+
+
+@login_required
+def configuracion_cuenta(request):
+    user = request.user
+    entrenador = getattr(user, 'entrenadores', None)
+    perfil = getattr(user, 'profile', None)
+
+    if request.method == 'POST':
+        perfil_form = EditarPerfilForm(request.POST, request.FILES, instance=user, entrenador=entrenador, perfil=perfil)
+        password_form = PasswordChangeForm(request.user, request.POST)
+
+        if perfil_form.is_valid():
+            perfil_form.save()
+            messages.success(request, 'Perfil actualizado correctamente.')
+
+        if password_form.is_valid():
+            user = password_form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Contraseña actualizada correctamente.')
+        elif request.POST.get('old_password'):
+            messages.error(request, 'Error al cambiar la contraseña. Verifica los datos ingresados.')
+
+        return redirect('configuracion_cuenta')
+    else:
+        perfil_form = EditarPerfilForm(instance=user, entrenador=entrenador, perfil=perfil)
+        password_form = PasswordChangeForm(request.user)
+
+    for field in perfil_form.fields.values():
+        field.widget.attrs.update({'class': 'form-control'})
+
+    for field in password_form.fields.values():
+        field.widget.attrs.update({'class': 'form-control'})
+
+    return render(request, 'configuracion_cuenta.html', {
+        'form': perfil_form,
+        'foto_form': perfil_form, 
+        'password_form': password_form,
+    })
+
+
+@login_required
+def cambiar_contrasena_ajax(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return JsonResponse({'success': True, 'message': 'Contraseña actualizada correctamente.'})
+        else:
+            errors = {}
+            for field in form.errors:
+                errors[field] = form.errors[field].as_text()
+            return JsonResponse({'success': False, 'errors': errors}, status=400)
+    return JsonResponse({'error': 'Método no permitido'}, status=405)
 
 def diccionario_porcentajes_repeticiones(cantidad_semanas, repeticiones, tipo_fase):
     diccionario_porcentajes = {

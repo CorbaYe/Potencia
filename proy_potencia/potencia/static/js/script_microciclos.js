@@ -1,18 +1,14 @@
-// Array para almacenar los datos de los atletas
 let atletasData = [];
-
-// Función para cargar los datos del atleta seleccionado
 function cargarDatosAtleta(atletaId) {
     const select = document.getElementById('athlete-select');
     const selectedOption = select.options[select.selectedIndex];
-    
+
     if (selectedOption && selectedOption.value) {
-        // Actualizar los parámetros base con los datos del atleta
         document.getElementById('arrInput').value = selectedOption.dataset.arr;
         document.getElementById('envInput').value = selectedOption.dataset.env;
         document.getElementById('saInput').value = selectedOption.dataset.sa;
         document.getElementById('sxatInput').value = selectedOption.dataset.sxat;
-        
+
         // Si ya hay macros generadas, actualizar los pesos base
         if (trainingData.macros.length > 0) {
             trainingData.macros.forEach(macro => {
@@ -40,18 +36,14 @@ function cargarDatosAtleta(atletaId) {
     }
 }
 
-// Event listener para el cambio de selección de atleta
-document.getElementById('athlete-select').addEventListener('change', function() {
+document.getElementById('athlete-select').addEventListener('change', function () {
     cargarDatosAtleta(this.value);
 });
-
-// Configuración inicial
 const diasSemana = ["LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES"];
 let trainingData = {
-    macros: []  // Array para almacenar las macros
+    macros: []
 };
 
-// Variables para seguimiento de edición
 let currentEditData = {
     macroIndex: null,
     dayIndex: null,
@@ -67,7 +59,7 @@ function generarDias(cantidadDias) {
     for (let i = 0; i < cantidadDias; i++) {
         dias.push({
             numeroDia: i + 1,
-            nombreDia: diasSemana[i % diasSemana.length], // Usar % para evitar desbordar el array
+            nombreDia: diasSemana[i % diasSemana.length],
             categorias: [
                 { tipo: "ARR", pesoBase: 100 },
                 { tipo: "ENV", pesoBase: 120 },
@@ -170,12 +162,12 @@ function renderTable() {
     trainingData.macros.forEach((macro, macroIndex) => {
         const macroSection = document.createElement('div');
         macroSection.className = 'macro-section bg-light p-3 mb-4 border rounded shadow-sm';
-        
+
         // Encabezado plegable de la macro
         const macroHeader = document.createElement('div');
         macroHeader.className = 'macro-header d-flex justify-content-between align-items-center';
         macroHeader.innerHTML = `
-            <h3 class="mb-0">Macro ${macroIndex + 1}</h3>
+            <h3 class="mb-0">Microciclo ${macroIndex + 1}</h3>
             <i class="bi bi-chevron-down"></i>
         `;
         macroHeader.addEventListener('click', () => {
@@ -287,25 +279,20 @@ function renderTable() {
             section.appendChild(content);
             macroContent.appendChild(section);
         });
-        
+
         macroSection.appendChild(macroContent);
         container.appendChild(macroSection);
     });
-
-    // Habilitar botón de edición
     document.getElementById('editButton').disabled = false;
-
-    // Asignar eventos a las celdas editables
     document.querySelectorAll('.editable-cell').forEach(cell => {
         cell.addEventListener('click', handleCellClick);
     });
 
-    // Expandir la primera macro y su primer día por defecto
     if (trainingData.macros.length > 0) {
         const firstMacroSection = container.querySelector('.macro-section');
         if (firstMacroSection) {
             firstMacroSection.classList.add('expanded');
-            
+
             if (trainingData.macros[0].dias.length > 0) {
                 const firstDaySection = firstMacroSection.querySelector('.day-section');
                 if (firstDaySection) {
@@ -370,19 +357,17 @@ function handleCellClick(e) {
         document.getElementById('editS').value = percentageData.s || '';
         document.getElementById('editR').value = percentageData.r || '';
     }
-
-    // Mostrar modal
     const editModal = new bootstrap.Modal(document.getElementById('editModal'));
     editModal.show();
 }
 
 // Event Listeners
-document.getElementById('macroForm').addEventListener('submit', function(e) {
+document.getElementById('macroForm').addEventListener('submit', function (e) {
     e.preventDefault();
     const cantidadMacros = parseInt(document.getElementById('macroInput').value);
     const cantidadDias = parseInt(document.getElementById('daysInput').value);
 
-    trainingData.macros = []; // Limpiar macros existentes
+    trainingData.macros = [];
     for (let i = 0; i < cantidadMacros; i++) {
         trainingData.macros.push({
             numeroMacro: i + 1,
@@ -393,7 +378,7 @@ document.getElementById('macroForm').addEventListener('submit', function(e) {
     bootstrap.Modal.getInstance(document.getElementById('macroModal')).hide();
 });
 
-document.getElementById('parametersForm').addEventListener('submit', function(e) {
+document.getElementById('parametersForm').addEventListener('submit', function (e) {
     e.preventDefault();
 
     trainingData.macros.forEach(macro => {
@@ -421,7 +406,7 @@ document.getElementById('parametersForm').addEventListener('submit', function(e)
     bootstrap.Modal.getInstance(document.getElementById('paramsModal')).hide();
 });
 
-document.getElementById('editForm').addEventListener('submit', function(e) {
+document.getElementById('editForm').addEventListener('submit', function (e) {
     e.preventDefault();
 
     const macroIndex = parseInt(document.getElementById('editMacroIndex').value);
@@ -437,7 +422,7 @@ document.getElementById('editForm').addEventListener('submit', function(e) {
     const ejercicio = dia.ejercicios.find(e => e.tipo === category);
     const row = ejercicio.rows[rowIndex];
 
-     if (currentEditData.type === 'sec' || currentEditData.type === 'cog' || currentEditData.type === 'forma') {
+    if (currentEditData.type === 'sec' || currentEditData.type === 'cog' || currentEditData.type === 'forma') {
         // Actualizar datos básicos
         row.sec = document.getElementById('editSec').value;
         row.cog = document.getElementById('editCog').value;
@@ -462,8 +447,8 @@ document.getElementById('editForm').addEventListener('submit', function(e) {
     bootstrap.Modal.getInstance(document.getElementById('editModal')).hide();
 });
 
-document.getElementById('clearButton').addEventListener('click', function() {
-     if (currentEditData.type === 'sec' || currentEditData.type === 'cog' || currentEditData.type === 'forma') {
+document.getElementById('clearButton').addEventListener('click', function () {
+    if (currentEditData.type === 'sec' || currentEditData.type === 'cog' || currentEditData.type === 'forma') {
         return;
     }
 
@@ -503,7 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
     diasPorSemana = JSON.parse(decodeURIComponent(numeroDiasParam));
 
     trainingData.macros = []
-    for (let i = 0; i < cantMicrociclos; i++){
+    for (let i = 0; i < cantMicrociclos; i++) {
 
         const diasEnMacro = diasPorSemana[i % diasPorSemana.length] || 5;
         trainingData.macros.push({
@@ -512,7 +497,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Inicializar valores del modal de parámetros
     if (trainingData.macros.length > 0 && trainingData.macros[0].dias.length > 0) {
         document.getElementById('arrInput').value = trainingData.macros[0].dias[0].categorias.find(c => c.tipo === 'ARR').pesoBase;
         document.getElementById('envInput').value = trainingData.macros[0].dias[0].categorias.find(c => c.tipo === 'ENV').pesoBase;
