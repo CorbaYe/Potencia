@@ -26,90 +26,49 @@
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="row flex-nowrap">
-
-            <aside class="w-64 bg-card flex flex-col border-r border-gray-800 transition-all">
-                <div class="p-6">
-                    <div class="flex items-center gap-2 text-primary font-bold text-2xl tracking-wider mb-10">
-                        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
-                        <i class="ph-fill ph-lightning text-3xl"></i>POTENCIA
-                        </a>
-                    </div>
-
-                    <nav class="space-y-2">
-                        <a href="#" class="flex items-center gap-3 bg-primary/10 text-primary px-4 py-3 rounded-lg font-medium transition-colors border border-primary/20">
-                            <i class="ph ph-barbell text-xl"></i> Mis Planes
-                        </a>
-                        <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-lg font-medium transition-colors">
-                            <i class="ph ph-users text-xl"></i> Atletas
-                        </a>
-                        <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-lg font-medium transition-colors">
-                            <i class="ph ph-notebook text-xl"></i> Batería de ejercicios
-                        </a>
-                        <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-lg font-medium transition-colors">
-                            <i class="ph ph-book-open text-xl"></i> Teoría
-                        </a>
-                    </nav>
-                </div>
-                
-                <div class="mt-auto p-6 space-y-2 border-t border-gray-800/50">
-                    <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-lg font-medium transition-colors">
-                        <i class="ph ph-user-gear text-xl"></i> Mi cuenta
-                    </a>
-                    <a href="#" class="flex items-center gap-3 text-red-400 hover:text-red-300 hover:bg-red-900/20 px-4 py-3 rounded-lg font-medium transition-colors mt-2">
-                        <i class="ph ph-sign-out text-xl"></i> Cerrar sesión
-                    </a>
-                </div>
-            </aside>
-            <!-- <div class="col-md-2 col-xl-2 px-0 bg-dark sidebar">
-                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-3 min-vh-100">
-                    <div class="container-fluid">
-                        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
-                            <i class="bi bi-lightning-charge-fill me-2 text-success fs-3"></i>
-                            <strong class="fs-4" style="color: #8af704;">⚡ POTENCIA</strong>
-                        </a>
-                    </div>
-                    <ul class="nav flex-column mt-4 w-100">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'planes' %}">
-                                <i class="fas fa-dumbbell me-2"></i> Mis Planes
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'atletas' %}">
-                                <i class="fas fa-running me-2"></i> Atletas
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'ejercicios' %}">
-                                <i class="fas fa-weight"></i> Batería de ejercicios
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'configuracion_cuenta' %}">
-                                <i class="fas fa-user-cog me-2"></i> Mi cuenta
-                            </a>
-
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'dashboard_halterofilia' %}">
-                                <i class="fas fa-book me-2"></i> Teoria
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div> -->
-
-            <div class="col-md-10 col-xl-10 px-4">
-                <main class="py-4">
-                    {% block contenido %} {% endblock %}
-                </main>
+    <aside class="w-64 bg-card flex flex-col border-r border-gray-800 transition-all">
+        <div class="p-6">
+            <div class="flex items-center gap-2 text-primary font-bold text-2xl tracking-wider mb-10">
+                <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+                <i class="ph-fill ph-lightning text-3xl"></i>POTENCIA
+                </a>
             </div>
+
+            <nav class="space-y-2">
+                <a href="{% url 'planes' %}" class="flex items-center gap-3 bg-primary/10 text-primary px-4 py-3 rounded-lg font-medium transition-colors border border-primary/20">
+                    <i class="ph ph-barbell text-xl"></i> Mis Planes
+                </a>
+                <a href="{% url 'atletas' %}" class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-lg font-medium transition-colors">
+                    <i class="ph ph-users text-xl"></i> Atletas    
+                </a>
+                <a href="{% url 'ejercicios' %}" class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-lg font-medium transition-colors">
+                    <i class="ph ph-notebook text-xl"></i> Batería de ejercicios
+                </a>
+                <a href="{% url 'dashboard_halterofilia' %}" class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-lg font-medium transition-colors">
+                    <i class="ph ph-book-open text-xl"></i> Teoría
+                </a>
+            </nav>
         </div>
+        
+        <div class="mt-auto p-6 space-y-2 border-t border-gray-800/50">
+            <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-lg font-medium transition-colors">
+                <a class="nav-link" href="{% url 'configuracion_cuenta' %}">
+                    <i class="ph ph-user-gear text-xl"></i> Mi cuenta
+                </a>                        
+            </a>
+            <a href="{% url 'exit' %}" class="flex items-center gap-3 text-red-400 hover:text-red-300 hover:bg-red-900/20 px-4 py-3 rounded-lg font-medium transition-colors mt-2">
+                <i class="ph ph-sign-out text-xl"></i> Cerrar sesión
+            </a>
+        </div>
+    </aside>
+
+
+    <div class="col-md-10 col-xl-10 px-4">
+        <main class="py-4">
+            {% block contenido %} {% endblock %}
+        </main>
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
