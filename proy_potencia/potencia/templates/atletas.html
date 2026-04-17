@@ -3,11 +3,14 @@
 
 {% block contenido %}
 
-{% include 'atletas/header.html'%}
+{% include 'atletas/header.html' %}
+
+{% include 'atletas/resumen_atletas.html' %}
+
+{% include 'atletas/lista_atletas.html' %}
 
 <div class="card">
     <div class="card-body">
-
         <!-- Eliminar atleta y mensaje de confirmación -->
         {% if confirmar_eliminar %}
         <div class="card mb-4 border-danger">
@@ -198,7 +201,7 @@
             </table>
         </div>
 
-        <h5 class="mt-5 mb-3 label-color-fff">Vista en Tarjetas</h5>
+        <!-- <h5 class="mt-5 mb-3 label-color-fff">Vista en Tarjetas</h5>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
             {% for atleta in atletas %}
             <div class="col">
@@ -250,7 +253,7 @@
                 </div>
             </div>
             {% endfor %}
-        </div>
+        </div> -->
     </div>
 </div>
 

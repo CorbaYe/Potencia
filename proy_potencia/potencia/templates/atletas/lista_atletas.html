@@ -1,0 +1,36 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    {% for atleta in atletas %}     
+        <div class="bg-card p-6 rounded-2xl border border-gray-800 shadow-sm flex flex-col items-center text-center group transition-colors hover:border-primary/40">
+            <div class="w-24 h-24 bg-gradient-to-tr from-primary/30 to-emerald-300/30 rounded-full flex items-center justify-center text-primary font-bold text-2xl shadow-lg mb-6 border-4 border-gray-800">
+                YC
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">{{ atleta.nombre | upper }}</h3>
+            <small class="text-muted">ID: {{ atleta.id }}</small>
+            <div class="text-sm text-gray-400 mb-2">Arranque - {{ atleta.arranque }}</div>
+            <div class="text-sm text-gray-400 mb-2">Envión - {{ atleta.envion }}</div>
+            <div class="text-sm text-gray-400 mb-2">Sentadilla Delante - {{ atleta.sentadilla_delante }}</div>
+            <div class="text-sm text-gray-400 mb-2">Sentadilla Detrás - {{ atleta.sentadilla_detras }}</div>
+            <p class="text-xs text-primary mb-6">{% if atleta.entrenador %}
+                                                    Entrenador - {{ atleta.entrenador.nombre }}
+                                                {% else %}
+                                                    Sin entrenador
+                                                {% endif %}</p>
+            <div class="space-y-3 w-full mt-auto">
+                <a href="{% url 'editar_atleta' atleta.id %}" class="w-full bg-primary hover:bg-primaryHover text-white font-semibold py-2.5 px-6 rounded-xl text-sm transition-all shadow-lg shadow-primary/20">
+                    Editar plan
+                </a>
+                <a href="{% url 'eliminar_atleta' atleta.id %}" class="w-full bg-transparent text-gray-300 hover:text-white font-semibold py-2.5 px-6 rounded-xl text-sm border border-gray-700 hover:border-gray-500 hover:bg-gray-800/50 transition-all">
+                    Eliminar
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="p-6 rounded-2xl border-2 border-dashed border-gray-700 hover:border-gray-500 shadow-sm flex flex-col items-center justify-center text-center group transition-colors hover:bg-gray-800/30 cursor-pointer min-h-[360px]">
+        <div class="w-16 h-16 bg-card rounded-full flex items-center justify-center text-gray-600 group-hover:text-gray-400 group-hover:scale-110 shadow-inner mb-6 transition-all border border-gray-700">
+            <i class="ph ph-user-plus text-3xl"></i>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-500 group-hover:text-gray-300 mb-1">Añadir atleta</h3>
+        <p class="text-sm text-gray-600 group-hover:text-gray-400">Registra un nuevo integrante</p>
+    </div>
+</div>
+    
