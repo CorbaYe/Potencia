@@ -1,12 +1,21 @@
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('#datosAtletaModal form');
-    if (!form) return;
+    
+    if (!form) {
+        console.warn('No se encontró el formulario del modal de atleta.');
+        return;
+    }
+
+    const $modalEl = document.getElementById('datosAtletaModal');
+    let modal;
+
+    if (typeof Modal !== 'undefined') {
+        modal = new Modal($modalEl);
+    }
 
     form.addEventListener('submit', function (e) {
         e.preventDefault();
-        const modalEl = document.getElementById('datosAtletaModal');
-        const modal = bootstrap.Modal.getInstance(modalEl);
-
+        
         fetch(form.action, {
             method: 'POST',
             body: new FormData(form),
