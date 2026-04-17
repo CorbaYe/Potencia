@@ -1,51 +1,84 @@
-<div class="table-responsive">
-<table class="table table-hover align-middle w-100">
-    <thead class="table-light">
-        <tr>
-            <th>ID</th>
-            <th>Documento</th>
-            <th>Nombre</th>
-            <th>Edad</th>
-            <th>Género</th>
-            <th>Arranque</th>
-            <th>Envion</th>
-            <th>S. Delante</th>
-            <th>S. Detrás</th>
-            <th>Entrenador</th>
-            <th class="text-end">Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for atleta in atletas %}
-        <tr>
-            <td>{{ atleta.id }}</td>
-            <td>{{ atleta.documento }}</td>
-            <td>{{ atleta.nombre }}</td>
-            <td>{{ atleta.edad }}</td>
-            <td>{{ atleta.genero }}</td>
-            <td>{{ atleta.arranque }}</td>
-            <td>{{ atleta.envion }}</td>
-            <td>{{ atleta.sentadilla_delante }}</td>
-            <td>{{ atleta.sentadilla_detras }}</td>
-            <td>
-                {% if atleta.entrenador %}
-                    {{ atleta.entrenador.nombre }}
-                {% else %}
-                    <span class="text-muted">Sin asignar</span>
-                {% endif %}
-            </td>
-            <td class="text-end">
-                <div class="btn-group" role="group">
-                    <a href="{% url 'editar_atleta' atleta.id %}" class="btn btn-sm btn-outline-primary">
-                        <i class="fas fa-edit"></i>
-                    </a>
-                    <a href="{% url 'eliminar_atleta' atleta.id %}" class="btn btn-sm btn-outline-danger">
-                        <i class="fas fa-trash-alt"></i>
-                    </a>
-                </div>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="relative overflow-x-auto shadow-2xl sm:rounded-2xl border border-gray-700 bg-gray-900">
+    <table class="w-full text-sm text-left text-gray-300">
+        <thead class="text-xs text-gray-400 uppercase bg-gray-800/80 border-b border-gray-700">
+            <tr>
+                <th scope="col" class="px-4 py-4 font-bold tracking-wider text-center">ID</th>
+                <th scope="col" class="px-4 py-4 font-bold tracking-wider">Documento</th>
+                <th scope="col" class="px-4 py-4 font-bold tracking-wider text-white">Nombre</th>
+                <th scope="col" class="px-4 py-4 font-bold tracking-wider text-center">Edad</th>
+                <th scope="col" class="px-4 py-4 font-bold tracking-wider">Género</th>
+                <th scope="col" class="px-4 py-4 font-bold tracking-wider text-emerald-400 text-center">Arranque</th>
+                <th scope="col" class="px-4 py-4 font-bold tracking-wider text-emerald-400 text-center">Envión</th>
+                <th scope="col" class="px-4 py-4 font-bold tracking-wider text-emerald-400 text-center">S. Delante</th>
+                <th scope="col" class="px-4 py-4 font-bold tracking-wider text-emerald-400 text-center">S. Detrás</th>
+                <th scope="col" class="px-4 py-4 font-bold tracking-wider">Entrenador</th>
+                <th scope="col" class="px-4 py-4 font-bold tracking-wider text-center">Acciones</th>
+            </tr>
+        </thead>
+        
+        <tbody class="divide-y divide-gray-800">
+            
+            {% for atleta in atletas %}
+            <tr class="hover:bg-gray-800/50 transition-colors group">
+                <td class="px-4 py-4 text-center font-medium text-gray-500">
+                    {{ atleta.id }}
+                </td>
+                <td class="px-4 py-4 whitespace-nowrap text-gray-400">
+                    {{ atleta.documento }}
+                </td>
+                <td class="px-4 py-4 whitespace-nowrap font-medium text-white">
+                    {{ atleta.nombre }}
+                </td>
+                <td class="px-4 py-4 text-center text-gray-400">
+                    {{ atleta.edad }}
+                </td>
+                <td class="px-4 py-4 text-gray-400">
+                    <span class="bg-gray-800 text-gray-300 text-xs font-medium px-2.5 py-1 rounded-md border border-gray-700">
+                        {{ atleta.genero }}
+                    </span>
+                </td>
+                
+                <td class="px-4 py-4 text-center font-semibold text-white">
+                    {{ atleta.arranque }} <span class="text-xs text-gray-500 font-normal">kg</span>
+                </td>
+                <td class="px-4 py-4 text-center font-semibold text-white">
+                    {{ atleta.envion }} <span class="text-xs text-gray-500 font-normal">kg</span>
+                </td>
+                <td class="px-4 py-4 text-center font-semibold text-white">
+                    {{ atleta.sentadilla_delante }} <span class="text-xs text-gray-500 font-normal">kg</span>
+                </td>
+                <td class="px-4 py-4 text-center font-semibold text-white">
+                    {{ atleta.sentadilla_detras }} <span class="text-xs text-gray-500 font-normal">kg</span>
+                </td>
+                
+                <td class="px-4 py-4 text-gray-400 whitespace-nowrap">
+                    {% if atleta.entrenador %}
+                        {{ atleta.entrenador.nombre }}
+                    {% else %}
+                        <span class="text-muted">Sin asignar</span>
+                    {% endif %} 
+                </td>
+                
+                <td class="px-4 py-4">
+                    <div class="flex items-center justify-center gap-2 opacity-70 group-hover:opacity-100 transition-opacity">
+                        <a href="{% url 'editar_atleta' atleta.id %}" class="p-2 text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 rounded-lg transition-colors" title="Editar">
+                            <i class="ph-bold ph-pencil-simple text-lg"></i>
+                        </a>
+                        <a href="{% url 'eliminar_atleta' atleta.id %}" class="p-2 text-red-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors" title="Eliminar">
+                            <i class="ph-bold ph-trash text-lg"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="11" class="px-6 py-12 text-center text-gray-500">
+                    <i class="ph ph-users text-4xl mb-3 block text-gray-600"></i>
+                    No hay atletas registrados aún.
+                </td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
 </div>
