@@ -1,5 +1,5 @@
 <!-- Editar un atleta -->
-{% if editing %}
+<!-- {% if editing %}
 <div class="card mb-4 border-secondary">
     <div class="card text-bg-secondary mb-3">
         <h4 class="card-title mb-0">
@@ -84,4 +84,109 @@
         </form>
     </div>
 </div>
-{% endif %}
+{% endif %} -->
+
+
+<div id="editarAtletaModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full backdrop-blur-sm bg-black/60 transition-opacity">
+    {% if editing %}
+    <div class="relative p-4 w-full max-w-4xl max-h-full">
+        
+        <div class="relative bg-gray-900 border border-gray-700 rounded-2xl shadow-2xl overflow-hidden">
+            
+            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-800 bg-gray-900/80">
+                <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                    <i class="ph-bold ph-pencil-simple text-blue-500 text-2xl"></i>
+                    Editando Atleta: <span class="text-blue-400 font-normal">{{ atleta_edicion.nombre }}</span>
+                </h3>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-800 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center transition-colors" data-modal-hide="editarAtletaModal">
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/></svg>
+                    <span class="sr-only">Cerrar</span>
+                </button>
+            </div>
+            
+            <form method="post">
+                {% csrf_token %}
+                <div class="p-6 space-y-6">
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="documento" class="block mb-1.5 text-sm font-medium text-gray-300">Documento</label>
+                                <!-- <input type="text" name="documento" id="documento" value="{{ atleta.documento }}" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full px-4 py-2.5 transition-colors" required> -->
+                                {{ form.documento }}
+                            </div>
+                            <div>
+                                <label for="nombre" class="block mb-1.5 text-sm font-medium text-gray-300">Nombre Completo</label>
+                                <!-- <input type="text" name="nombre" id="nombre" value="{{ atleta.nombre }}" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full px-4 py-2.5 transition-colors" required> -->
+                                {{ form.nombre }}
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label for="edad" class="block mb-1.5 text-sm font-medium text-gray-300">Edad</label>
+                                <!-- <input type="number" name="edad" id="edad" value="{{ atleta.edad }}" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full px-4 py-2.5 transition-colors" required> -->
+                                {{ form.edad }}
+                            </div>
+                            <div>
+                                <label for="genero" class="block mb-1.5 text-sm font-medium text-gray-300">Género</label>
+                                <!-- <select name="genero" id="genero" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full px-4 py-2.5 transition-colors">
+                                    <option value="M" {% if atleta.genero == 'M' or atleta.genero == 'Masculino' %}selected{% endif %}>Masculino</option>
+                                    <option value="F" {% if atleta.genero == 'F' or atleta.genero == 'Femenino' %}selected{% endif %}>Femenino</option>
+                                </select> -->
+                                {{ form.genero }}
+                            </div>
+                            <div>
+                                <label for="entrenador" class="block mb-1.5 text-sm font-medium text-gray-300">Entrenador</label>
+                                <!-- <select name="entrenador" id="entrenador" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full px-4 py-2.5 transition-colors">
+                                    <option value="{{ atleta.entrenador.id }}" selected>{{ atleta.entrenador.nombre }}</option>
+                                </select> -->
+                                {{ form.entrenador }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-gray-800/80">
+                        <h4 class="text-xs font-bold text-blue-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                            <i class="ph-fill ph-barbell"></i> Marcas Personales (kg)
+                        </h4>
+                        
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div>
+                                <label for="arranque" class="block mb-1.5 text-xs font-medium text-gray-400">Arranque</label>
+                                <!-- <input type="number" name="arranque" id="arranque" value="{{ atleta.arranque }}" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full px-3 py-2.5 text-center transition-colors" required> -->
+                                {{ form.arranque }}
+                            </div>
+                            <div>
+                                <label for="envion" class="block mb-1.5 text-xs font-medium text-gray-400">Envión</label>
+                                <!-- <input type="number" name="envion" id="envion" value="{{ atleta.envion }}" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full px-3 py-2.5 text-center transition-colors" required> -->
+                                {{ form.envion }}
+                            </div>
+                            <div>
+                                <label for="s_delante" class="block mb-1.5 text-xs font-medium text-gray-400">S. Delante</label>
+                                <!-- <input type="number" name="s_delante" id="s_delante" value="{{ atleta.s_delante }}" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full px-3 py-2.5 text-center transition-colors" required> -->
+                                {{ form.sentadilla_delante }}
+                            </div>
+                            <div>
+                                <label for="s_detras" class="block mb-1.5 text-xs font-medium text-gray-400">S. Detrás</label>
+                                <!-- <input type="number" name="s_detras" id="s_detras" value="{{ atleta.s_detras }}" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full px-3 py-2.5 text-center transition-colors" required> -->
+                                {{ form.sentadilla_detras }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-800 bg-gray-900/50">
+                    <button type="button" data-modal-hide="editarAtletaModal" class="px-5 py-2.5 text-sm font-medium text-gray-300 hover:text-white bg-transparent hover:bg-gray-800 border border-gray-700 rounded-xl transition-colors focus:ring-4 focus:outline-none focus:ring-gray-800">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-5 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors shadow-lg shadow-blue-600/20 focus:ring-4 focus:outline-none focus:ring-blue-800 flex items-center gap-2">
+                        <i class="ph-bold ph-floppy-disk"></i>
+                        Actualizar Atleta
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+</div>

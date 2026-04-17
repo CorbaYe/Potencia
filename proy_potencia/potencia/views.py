@@ -112,7 +112,6 @@ def eliminar_plan(request, pk):
 
 @login_required
 def atletas(request):
-    print("1")
     entrenador = request.user.entrenadores
     atletas = entrenador.atletas.all()
     form = AtletaForm(request.POST or None)
