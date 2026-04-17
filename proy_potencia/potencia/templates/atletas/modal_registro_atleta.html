@@ -100,7 +100,7 @@
                 </button>
             </div>
             
-            <form action="{% url 'atletas' %}" method="post">
+            <form method="post" action="{% url 'atletas' %}">
                 {% csrf_token %}
                 <div class="p-6 space-y-6">
                 
@@ -108,33 +108,38 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label for="documento" class="block mb-1.5 text-sm font-medium text-gray-300">Documento</label>
-                                <input type="text" name="documento" id="documento" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-2.5 placeholder-gray-500 transition-colors" placeholder="Ej: 1077453071" required>
+                                <!-- <input type="text" name="documento" id="documento" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-2.5 placeholder-gray-500 transition-colors" placeholder="Ej: 1077453071" required> -->
+                                {{ form.documento }}
                             </div>
                             <div>
                                 <label for="nombre" class="block mb-1.5 text-sm font-medium text-gray-300">Nombre Completo</label>
-                                <input type="text" name="nombre" id="nombre" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-2.5 placeholder-gray-500 transition-colors" placeholder="Ej: Yeison Cordoba" required>
+                                <!-- <input type="text" name="nombre" id="nombre" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-2.5 placeholder-gray-500 transition-colors" placeholder="Ej: Yeison Cordoba" required> -->
+                                {{ form.nombre }}
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div>
                                 <label for="edad" class="block mb-1.5 text-sm font-medium text-gray-300">Edad</label>
-                                <input type="number" name="edad" id="edad" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-2.5 placeholder-gray-500 transition-colors" placeholder="Ej: 24" required>
+                                <!-- <input type="number" name="edad" id="edad" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-2.5 placeholder-gray-500 transition-colors" placeholder="Ej: 24" required> -->
+                                {{ form.edad }}
                             </div>
                             <div>
                                 <label for="genero" class="block mb-1.5 text-sm font-medium text-gray-300">Género</label>
-                                <select name="genero" id="genero" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-2.5 transition-colors">
+                                <!-- <select name="genero" id="genero" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-2.5 transition-colors">
                                     <option value="" disabled selected>Seleccionar...</option>
                                     <option value="M">Masculino</option>
                                     <option value="F">Femenino</option>
-                                </select>
+                                </select> -->
+                                {{ form.genero }}
                             </div>
                             <div>
                                 <label for="entrenador" class="block mb-1.5 text-sm font-medium text-gray-300">Entrenador</label>
-                                <select name="entrenador" id="entrenador" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-2.5 transition-colors">
+                                <!-- <select name="entrenador" id="entrenador" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-2.5 transition-colors">
                                     <option value="" disabled selected>Seleccionar...</option>
                                     <option value="1">Yirlesa Cordoba</option>
-                                </select>
+                                </select> -->
+                                {{ form.entrenador }}
                             </div>
                         </div>
                     </div>
@@ -147,19 +152,23 @@
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                             <div>
                                 <label for="arranque" class="block mb-1.5 text-xs font-medium text-gray-400">Arranque</label>
-                                <input type="number" name="arranque" id="arranque" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-3 py-2.5 text-center transition-colors" placeholder="0" required>
+                                <!-- <input type="number" name="arranque" id="arranque" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-3 py-2.5 text-center transition-colors" placeholder="0" required> -->
+                                {{ form.arranque }}
                             </div>
                             <div>
                                 <label for="envion" class="block mb-1.5 text-xs font-medium text-gray-400">Envión</label>
-                                <input type="number" name="envion" id="envion" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-3 py-2.5 text-center transition-colors" placeholder="0" required>
+                                <!-- <input type="number" name="envion" id="envion" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-3 py-2.5 text-center transition-colors" placeholder="0" required> -->
+                                {{ form.envion }}
                             </div>
                             <div>
                                 <label for="s_delante" class="block mb-1.5 text-xs font-medium text-gray-400">S. Delante</label>
-                                <input type="number" name="s_delante" id="s_delante" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-3 py-2.5 text-center transition-colors" placeholder="0" required>
+                                <!-- <input type="number" name="s_delante" id="s_delante" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-3 py-2.5 text-center transition-colors" placeholder="0" required> -->
+                                {{ form.sentadilla_delante }}
                             </div>
                             <div>
                                 <label for="s_detras" class="block mb-1.5 text-xs font-medium text-gray-400">S. Detrás</label>
-                                <input type="number" name="s_detras" id="s_detras" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-3 py-2.5 text-center transition-colors" placeholder="0" required>
+                                <!-- <input type="number" name="s_detras" id="s_detras" class="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-3 py-2.5 text-center transition-colors" placeholder="0" required> -->
+                                {{ form.sentadilla_detras }}
                             </div>
                         </div>
                     </div>
