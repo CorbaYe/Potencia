@@ -17,16 +17,12 @@
                                                     Sin entrenador
                                                 {% endif %}</p>
             <div class="space-y-3 w-full mt-auto">
-                <a href="{% url 'editar_atleta' atleta.id %}" class="flex justify-center items-center w-full bg-primary hover:bg-primaryHover text-white font-semibold py-2.5 px-6 rounded-xl text-sm transition-all shadow-lg shadow-primary/20">
-                    Editar plan
-                </a>
+                <button type="button" data-modal-target="editarAtletaModal-{{ atleta.id }}" data-modal-toggle="editarAtletaModal-{{ atleta.id }}" class="flex justify-center items-center w-full bg-primary hover:bg-primaryHover text-white font-semibold py-2.5 px-6 rounded-xl text-sm transition-all shadow-lg shadow-primary/20">
+                    <i class="ph-bold ph-pencil-simple text-lg"></i>   Editar plan
+                </button>
                 <a href="{% url 'eliminar_atleta' atleta.id %}" class="flex justify-center items-center w-full bg-transparent text-gray-300 hover:text-white font-semibold py-2.5 px-6 rounded-xl text-sm border border-gray-700 hover:border-gray-500 hover:bg-gray-800/50 transition-all">
                     Eliminar
                 </a>
-                <button class="w-full bg-transparent text-gray-300 hover:text-white font-semibold py-2.5 px-6 rounded-xl text-sm border border-gray-700 hover:border-gray-500 hover:bg-gray-800/50 transition-all" data-modal-toggle="editarAtletaModal"
-                    data-modal-target="editarAtletaModal">
-                    E
-                </button>
             </div>
         </div>
     {% endfor %}
@@ -39,4 +35,7 @@
         <p class="text-sm text-gray-600 group-hover:text-gray-400">Registra un nuevo integrante</p>
     </div>
 </div>
-    
+
+{% for atleta in atletas %}  
+    {% include 'atletas/editar.html' %}
+{% endfor %}

@@ -123,7 +123,7 @@ def atletas(request):
     return render(request, 'atletas.html', {
         'atletas': atletas,
         'form': form,
-        'editing': False
+        'editing': True
     })
 
 @login_required
