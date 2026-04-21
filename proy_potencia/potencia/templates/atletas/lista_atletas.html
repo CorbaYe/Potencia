@@ -20,7 +20,7 @@
                 <button type="button" data-modal-target="editarAtletaModal-{{ atleta.id }}" data-modal-toggle="editarAtletaModal-{{ atleta.id }}" class="flex justify-center items-center w-full bg-primary hover:bg-primaryHover text-white font-semibold py-2.5 px-6 rounded-xl text-sm transition-all shadow-lg shadow-primary/20">
                     <i class="ph-bold ph-pencil-simple text-lg"></i>   Editar plan
                 </button>
-                <a href="{% url 'eliminar_atleta' atleta.id %}" class="flex justify-center items-center w-full bg-transparent text-gray-300 hover:text-white font-semibold py-2.5 px-6 rounded-xl text-sm border border-gray-700 hover:border-gray-500 hover:bg-gray-800/50 transition-all">
+                <button type="button" data-modal-target="eliminarAtltetaModal-{{ atleta.id }}" data-modal-toggle="eliminarAtltetaModal-{{ atleta.id }}" class="flex justify-center items-center w-full bg-transparent text-gray-300 hover:text-white font-semibold py-2.5 px-6 rounded-xl text-sm border border-gray-700 hover:border-gray-500 hover:bg-gray-800/50 transition-all">
                     Eliminar
                 </a>
             </div>
@@ -38,4 +38,5 @@
 
 {% for atleta in atletas %}  
     {% include 'atletas/editar.html' %}
+    {% include 'atletas/eliminar.html'%}
 {% endfor %}
