@@ -41,16 +41,16 @@
             </div>
 
             <nav class="space-y-2">
-                <a href="{% url 'planes' %}" class="flex items-center gap-3 bg-primary/10 text-primary px-4 py-3 rounded-lg font-medium transition-colors border border-primary/20">
+                <a id="nav-planes" name="nav-all-reset" href="{% url 'planes' %}" class="flex items-center gap-3 bg-primary/10 text-primary px-4 py-3 rounded-lg font-medium transition-colors border border-primary/20">
                     <i class="ph ph-barbell text-xl"></i> Mis Planes
                 </a>
-                <a href="{% url 'atletas' %}" class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-lg font-medium transition-colors">
+                <a id="nav-atletas" name="nav-all-reset" href="{% url 'atletas' %}" class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-lg font-medium transition-colors">
                     <i class="ph ph-users text-xl"></i> Atletas    
                 </a>
-                <a href="{% url 'ejercicios' %}" class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-lg font-medium transition-colors">
+                <a id="nav-ejercicios" name="nav-all-reset" href="{% url 'ejercicios' %}" class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-lg font-medium transition-colors">
                     <i class="ph ph-notebook text-xl"></i> Batería de ejercicios
                 </a>
-                <a href="{% url 'dashboard_halterofilia' %}" class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-lg font-medium transition-colors">
+                <a id="nav-teoria" name="nav-all-reset" href="{% url 'dashboard_halterofilia' %}" class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-lg font-medium transition-colors">
                     <i class="ph ph-book-open text-xl"></i> Teoría
                 </a>
             </nav>
