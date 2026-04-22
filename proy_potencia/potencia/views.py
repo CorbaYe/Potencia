@@ -123,7 +123,9 @@ def atletas(request):
     return render(request, 'atletas.html', {
         'atletas': atletas,
         'form': form,
-        'editing': True
+        'editing': True,
+        # 'confirmar_eliminar': True
+        
     })
 
 @login_required
@@ -154,7 +156,7 @@ def eliminar_atleta(request, pk):
     
     return render(request, 'atletas.html', {
         'atletas': Atletas.objects.all(),
-        'confirmar_eliminar': True,
+        # 'confirmar_eliminar': True,
         'atleta_a_eliminar': atleta
     })
 
