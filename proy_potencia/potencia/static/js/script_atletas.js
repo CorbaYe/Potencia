@@ -1,6 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('#datosAtletaModal form');
 
+    const elementosReset = document.getElementsByName('nav-all-reset')
+    const navAtletas = document.getElementById('nav-atletas')
+    elementosReset[0].className = 'flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-lg font-medium transition-colors';
+    elementosReset[1].className = 'flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-lg font-medium transition-colors';
+    elementosReset[2].className = 'flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-lg font-medium transition-colors';
+    elementosReset[3].className = 'flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-lg font-medium transition-colors';
+    
+    navAtletas.className = 'flex items-center gap-3 bg-primary/10 text-primary px-4 py-3 rounded-lg font-medium transition-colors border border-primary/20';
+
     if (!form) {
         console.warn('No se encontró el formulario del modal de atleta.');
         return;

@@ -29,6 +29,8 @@
             margin-bottom: 1.5rem;
         }
     </style>
+     {% block extra_css %}{% endblock %}
+     
 </head>
 
 <body class="bg-dark text-gray-200 h-screen flex overflow-hidden font-sans">
@@ -84,7 +86,6 @@
     <script src="{% static 'js/script_home.js' %}"></script>
     <script src="{% static 'js/script_grafico.js' %}"></script>
     <script src="{% static 'js/script_microciclos.js' %}"></script>
-    <script src="{% static 'js/script_atletas.js' %}"></script>
     {% block extra_js %} {% endblock %}
 </body>
 </html>
