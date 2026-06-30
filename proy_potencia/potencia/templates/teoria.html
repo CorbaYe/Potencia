@@ -3,114 +3,379 @@
 {% block titulo %}Dashboard Halterofilia{% endblock %}
 
 {% block contenido %}
-<h2 class="section-title">📊 Teoria Clave Halterofilia</h2>
-<p class="text-center">Visualiza los pilares clave del entrenamiento en halterofilia de forma interactiva y sencilla.
-</p>
+<div class="max-w-7xl mx-auto space-y-12 pb-16">
 
-<div class="dashboard-wrapper position-relative overflow-hidden py-4">
-    <button class="arrow-btn arrow-left" onclick="scrollDash(-1)"><i class="fas fa-chevron-left"></i></button>
-    <div id="dashboardScroll" class="dashboard-container d-flex overflow-auto gap-4 px-3">
-        <div class="dashboard-card bg-dark border border-secondary rounded p-4 flex-shrink-0"
-            style="min-width:350px; min-height:350px;">
-            <h4 class="card-title"><i class="fas fa-dumbbell icon-box"></i>Fundamentos</h4>
-            <p>La halterofilia se basa en la <span class="highlight">potencia aplicada en poco tiempo</span>. Requiere
-                fuerza
-                máxima, técnica depurada y velocidad de ejecución.</p>
-            <canvas id="graficoPotencia" height="160"></canvas>
+    <div class="relative bg-gray-900 border border-gray-800 rounded-3xl overflow-hidden shadow-2xl">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2070&auto=format&fit=crop" alt="Halterofilia Hero" class="w-full h-full object-cover opacity-20">
+            <div class="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/80 to-transparent"></div>
         </div>
-        <div class="dashboard-card bg-dark border border-secondary rounded p-4 flex-shrink-0"
-            style="min-width:350px; min-height:350px;">
-            <h4 class="card-title"><i class="fas fa-user-graduate icon-box"></i>Coaching</h4>
-            <p>El entrenador enseña ética, técnica y <span class="highlight">autogestión del esfuerzo</span>. Es clave
-                para
-                construir atletas completos y seguros.</p>
-            <div class="img-placeholder">
-                <img src="{% static 'images/coach.jpeg' %}" alt="Infografía de coaching" class="img-fluid rounded">
-            </div>
+        
+        <div class="relative z-10 p-8 md:p-12 lg:p-16 w-full md:w-2/3">
+            <span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-bold bg-lime-500/10 text-lime-400 mb-4 border border-lime-500/20 uppercase tracking-widest">
+                <i class="ph-bold ph-book-open"></i> Base de Conocimiento
+            </span>
+            <h1 class="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
+                Fundamentos de la <span class="text-transparent bg-gradient-to-r from-blue-400 to-lime-400" style="-webkit-background-clip: text; background-clip: text;">Halterofilia</span>
+            </h1>
+            <p class="text-lg text-gray-300 mb-8 leading-relaxed">
+                El levantamiento de pesas olímpico es la máxima expresión de la potencia humana. Domina la teoría, perfecciona la técnica y entiende los sistemas que construyen a un atleta de élite.
+            </p>
         </div>
-
-        <div class="dashboard-card bg-dark border border-secondary rounded p-4 flex-shrink-0"
-            style="min-width:350px; min-height:350px;">
-            <h4 class="card-title"><i class="fas fa-layer-group icon-box"></i>Sistema Progresivo</h4>
-            <p>Modelo por niveles: <br><span class="highlight">Iniciación → Promesa → Élite</span>, con metas físicas y
-                técnicas claras.</p>
-            <div class="img-placeholder">
-                <img src="{% static 'images/progesivo.webp' %}" alt="Pirámide de niveles" class="img-fluid rounded">
-            </div>
-        </div>
-
-        <div class="dashboard-card bg-dark border border-secondary rounded p-4 flex-shrink-0"
-            style="min-width:350px; min-height:350px;">
-            <h4 class="card-title"><i class="fas fa-dna icon-box"></i>Factores Individuales</h4>
-            <p>La planificación se adapta a edad, fisiología y mente. El <span class="highlight">ajuste
-                    individual</span> es
-                esencial para evitar lesiones y potenciar progreso.</p>
-            <div class="img-placeholder">
-                <img src="{% static 'images/factores.webp' %}" alt="Tabla de ajustes" class="img-fluid rounded">
-            </div>
-        </div>
-
-        <div class="dashboard-card bg-dark border border-secondary rounded p-4 flex-shrink-0"
-            style="min-width:350px; min-height:350px;">
-            <h4 class="card-title"><i class="fas fa-running icon-box"></i>Técnica y Ejecución</h4>
-            <p>Fases del levantamiento: postura, tracción, recepción y <span class="highlight">recuperación
-                    técnica</span>. La
-                precisión es vital.</p>
-            <div class="img-placeholder">
-                <img src="{% static 'images/tecnica.jpg' %}" alt="Secuencia de arranque" class="img-fluid rounded">
-            </div>
-        </div>
-
     </div>
-    <button class="arrow-btn arrow-right" onclick="scrollDash(1)"><i class="fas fa-chevron-right"></i></button>
+
+    <div>
+        <div class="flex items-center gap-3 mb-6">
+            <i class="ph-fill ph-barbell text-3xl text-blue-500"></i>
+            <h2 class="text-2xl font-bold text-white">Los Movimientos Olímpicos</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden group hover:border-blue-500/50 hover:shadow-blue-500/10 transition-all duration-300">
+                <div class="h-48 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=2069&auto=format&fit=crop" alt="Arranque" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white mb-2">El Arranque (Snatch)</h3>
+                    <p class="text-sm text-gray-400 mb-4">El movimiento más rápido y técnico del levantamiento de pesas. Consiste en llevar la barra desde la plataforma hasta la completa extensión de los brazos sobre la cabeza en un solo movimiento continuo.</p>
+                    <h4 class="text-xs font-bold text-blue-400 uppercase tracking-wider mb-2">Fases del movimiento</h4>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li class="flex items-start gap-2"><i class="ph-bold ph-check text-lime-500 mt-0.5"></i> Posición inicial y despegue</li>
+                        <li class="flex items-start gap-2"><i class="ph-bold ph-check text-lime-500 mt-0.5"></i> Primer y segundo halón (triple extensión)</li>
+                        <li class="flex items-start gap-2"><i class="ph-bold ph-check text-lime-500 mt-0.5"></i> Deslizamiento y recepción (sentadilla profunda)</li>
+                        <li class="flex items-start gap-2"><i class="ph-bold ph-check text-lime-500 mt-0.5"></i> Recuperación o fijación</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden group hover:border-blue-500/50 hover:shadow-blue-500/10 transition-all duration-300">
+                <div class="h-48 overflow-hidden relative">
+                    <img src="/static/img/two-men-doing-bodybuilding.jpg" alt="Envión" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white mb-2">El Envión (Clean & Jerk)</h3>
+                    <p class="text-sm text-gray-400 mb-4">El movimiento donde se levanta la mayor cantidad de peso. Se divide en dos tiempos: la cargada (llevar la barra a los hombros) y el empuje (llevarla sobre la cabeza).</p>
+                    <h4 class="text-xs font-bold text-blue-400 uppercase tracking-wider mb-2">Fases del movimiento</h4>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li class="flex items-start gap-2"><i class="ph-bold ph-check text-lime-500 mt-0.5"></i> Cargada (Clean): Despegue, halón y recepción frontal</li>
+                        <li class="flex items-start gap-2"><i class="ph-bold ph-check text-lime-500 mt-0.5"></i> Recuperación de la sentadilla frontal</li>
+                        <li class="flex items-start gap-2"><i class="ph-bold ph-check text-lime-500 mt-0.5"></i> Empuje (Jerk): Semiflexión (Dip) y extensión (Drive)</li>
+                        <li class="flex items-start gap-2"><i class="ph-bold ph-check text-lime-500 mt-0.5"></i> Tijera (Split) o Push Jerk, y recuperación final</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="flex items-center gap-3 mb-6">
+            <i class="ph-fill ph-lightning text-3xl text-lime-400"></i>
+            <h2 class="text-2xl font-bold text-white">Pilares del Rendimiento</h2>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div class="bg-gray-800/50 p-6 rounded-2xl border border-gray-700/50 hover:bg-gray-800 transition-colors">
+                <div class="w-12 h-12 bg-blue-500/10 text-blue-400 rounded-xl flex items-center justify-center text-2xl mb-4 border border-blue-500/20">
+                    <i class="ph-bold ph-rocket-launch"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">Fuerza Explosiva</h3>
+                <p class="text-sm text-gray-400">Capacidad de ejercer la máxima fuerza en el menor tiempo posible. Es la base de la aceleración de la barra en la fase de tirón.</p>
+            </div>
+            
+            <div class="bg-gray-800/50 p-6 rounded-2xl border border-gray-700/50 hover:bg-gray-800 transition-colors">
+                <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-xl flex items-center justify-center text-2xl mb-4 border border-amber-500/20">
+                    <i class="ph-bold ph-arrows-out"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">Flexibilidad y Movilidad</h3>
+                <p class="text-sm text-gray-400">Vital para alcanzar posiciones óptimas en la recepción. Tobillos, caderas, hombros y muñecas requieren rangos de movimiento extremos.</p>
+            </div>
+
+            <div class="bg-gray-800/50 p-6 rounded-2xl border border-gray-700/50 hover:bg-gray-800 transition-colors">
+                <div class="w-12 h-12 bg-purple-500/10 text-purple-400 rounded-xl flex items-center justify-center text-2xl mb-4 border border-purple-500/20">
+                    <i class="ph-bold ph-brain"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">Coordinación Neuromuscular</h3>
+                <p class="text-sm text-gray-400">Sincronización perfecta del reclutamiento de unidades motoras. Permite que el cuerpo actúe como un solo resorte potente y preciso.</p>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-3">
+                <i class="ph-fill ph-list-dashes text-3xl text-white"></i>
+                <h2 class="text-2xl font-bold text-white">Clasificación de Ejercicios</h2>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+                <h3 class="text-lg font-bold text-white mb-4 border-b border-gray-800 pb-2">Ejercicios Auxiliares Especiales</h3>
+                <div class="space-y-4">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-lg bg-gray-800 flex items-center justify-center text-blue-400 shrink-0"><i class="ph-bold ph-arrow-up"></i></div>
+                        <div>
+                            <h4 class="text-sm font-bold text-gray-200">Halones (Pulls)</h4>
+                            <p class="text-xs text-gray-400 mt-1">Halón de arranque y envión. Desarrollan la fuerza específica y la trayectoria del tirón sin necesidad de recepcionar la barra.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-lg bg-gray-800 flex items-center justify-center text-blue-400 shrink-0"><i class="ph-bold ph-arrows-down-up"></i></div>
+                        <div>
+                            <h4 class="text-sm font-bold text-gray-200">Ejercicios Colgantes (Hang)</h4>
+                            <p class="text-xs text-gray-400 mt-1">Arranque o cargada desde las rodillas o cadera. Mejoran la agresividad en la extensión final y la velocidad de metida.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+                <h3 class="text-lg font-bold text-white mb-4 border-b border-gray-800 pb-2">Ejercicios de Fuerza Base</h3>
+                <div class="space-y-4">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-lg bg-gray-800 flex items-center justify-center text-lime-400 shrink-0"><i class="ph-bold ph-person-simple-walk"></i></div>
+                        <div>
+                            <h4 class="text-sm font-bold text-gray-200">Sentadillas (Squats)</h4>
+                            <p class="text-xs text-gray-400 mt-1">Trasera y Frontal. El motor fundamental de la fuerza de piernas y el core, vital para levantar de la recepción profunda.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-lg bg-gray-800 flex items-center justify-center text-lime-400 shrink-0"><i class="ph-bold ph-arrow-fat-line-up"></i></div>
+                        <div>
+                            <h4 class="text-sm font-bold text-gray-200">Empujes y Press</h4>
+                            <p class="text-xs text-gray-400 mt-1">Press militar, Push Press, Empuje de fuerza. Fortalecen los hombros y tríceps para el soporte de la barra sobre la cabeza.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="flex items-center gap-3 mb-6">
+            <i class="ph-fill ph-book-bookmark text-3xl text-gray-400"></i>
+            <h2 class="text-2xl font-bold text-white">Glosario Técnico</h2>
+        </div>
+        
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden">
+            <table class="w-full text-sm text-left text-gray-400">
+                <thead class="text-xs text-gray-300 uppercase bg-gray-800/50 border-b border-gray-800">
+                    <tr>
+                        <th scope="col" class="px-6 py-4">Término</th>
+                        <th scope="col" class="px-6 py-4">Descripción en Halterofilia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b border-gray-800 hover:bg-gray-800/30 transition-colors">
+                        <td class="px-6 py-4 font-bold text-white whitespace-nowrap">Hook Grip (Agarre de gancho)</td>
+                        <td class="px-6 py-4">Técnica de agarre donde el pulgar queda atrapado entre la barra y los dedos índice y medio. Previene que la barra ruede y resbale.</td>
+                    </tr>
+                    <tr class="border-b border-gray-800 hover:bg-gray-800/30 transition-colors">
+                        <td class="px-6 py-4 font-bold text-white whitespace-nowrap">Triple Extensión</td>
+                        <td class="px-6 py-4">Extensión simultánea, explosiva y máxima de los tobillos, rodillas y caderas al final del segundo tirón.</td>
+                    </tr>
+                    <tr class="border-b border-gray-800 hover:bg-gray-800/30 transition-colors">
+                        <td class="px-6 py-4 font-bold text-white whitespace-nowrap">RM (Repetición Máxima)</td>
+                        <td class="px-6 py-4">El peso máximo absoluto que un atleta puede levantar para un número determinado de repeticiones (ej. 1RM = máximo peso para 1 repetición).</td>
+                    </tr>
+                    <tr class="hover:bg-gray-800/30 transition-colors">
+                        <td class="px-6 py-4 font-bold text-white whitespace-nowrap">Macrociclo</td>
+                        <td class="px-6 py-4">Estructura de planificación del entrenamiento a largo plazo (generalmente meses o un año) que prepara al atleta para su competencia fundamental.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </div>
 
-<hr class="my-5">
-
-<h2 class="text-success mb-4">Glosario Técnico de Halterofilia</h2>
-<div id="glossaryContainer" class="container mb-5">
-    <!-- Las tarjetas del glosario serán insertadas aquí por JavaScript -->
-</div>
 
 
-<footer class="text-center py-4 mt-4 border-top text-muted">
-    <small>&copy; 2024 - Plataforma de Halterofilia. Diseñado por Sebastián 💡</small>
-</footer>
-{% endblock %}
 
-{% block extra_js %}
+<div>
+        <div class="flex items-center gap-3 mb-6">
+            <i class="ph-fill ph-barbell text-3xl text-purple-500"></i>
+            <h2 class="text-2xl font-bold text-white">Catálogo de Ejercicios Especializados</h2>
+        </div>
+        <p class="text-gray-400 mb-8 max-w-3xl">El desarrollo de un levantador de élite se divide en el trabajo de fuerza bruta, el perfeccionamiento de los ángulos técnicos y el desarrollo de la resistencia a la potencia (capacidad de trabajo).</p>
 
-<script src="{% static 'js/script_teoria.js' %}"></script>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl flex flex-col overflow-hidden hover:border-purple-500/50 transition-colors">
+                <div class="bg-gradient-to-r from-purple-900/40 to-transparent p-5 border-b border-gray-800">
+                    <h3 class="text-lg font-bold text-purple-400 flex items-center gap-2">
+                        <i class="ph-bold ph-trend-up"></i> Desarrollo de Fuerza Base
+                    </h3>
+                    <p class="text-xs text-gray-400 mt-1">El chasis del atleta. Sin fuerza, no hay explosividad.</p>
+                </div>
+                <div class="p-5 flex-1">
+                    <ul class="space-y-4">
+                        <li>
+                            <h4 class="text-sm font-bold text-white">Sentadilla Trasera (Back Squat)</h4>
+                            <p class="text-xs text-gray-400">Constructor principal de fuerza en piernas, glúteos y core. Es la base de soporte de cualquier levantador.</p>
+                        </li>
+                        <li>
+                            <h4 class="text-sm font-bold text-white">Sentadilla Frontal (Front Squat)</h4>
+                            <p class="text-xs text-gray-400">Simula la postura de recepción del Clean. Exige una inmensa fuerza en el core y movilidad torácica.</p>
+                        </li>
+                        <li>
+                            <h4 class="text-sm font-bold text-white">Halón Pesado (Clean/Snatch Pull)</h4>
+                            <p class="text-xs text-gray-400">Imita el tirón clásico pero con sobrecarga (100-110% del RM) sin realizar la metida, fortaleciendo la espalda baja y trapecios.</p>
+                        </li>
+                        <li>
+                            <h4 class="text-sm font-bold text-white">Empuje de Fuerza (Push Press)</h4>
+                            <p class="text-xs text-gray-400">Desarrolla la fuerza de empuje vertical y bloque de hombros, utilizando un ligero impulso de piernas (dip).</p>
+                        </li>
+                        <li>
+                            <h4 class="text-sm font-bold text-white">Buenos Días (Good Mornings)</h4>
+                            <p class="text-xs text-gray-400">Aísla y fortalece de manera brutal los isquiosurales y la zona lumbar, vitales para el primer halón.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-<script>
-    const container = document.getElementById('dashboardScroll');
-    function scrollDash(direction) {
-        const scrollAmount = 400;
-        container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
-    }
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl flex flex-col overflow-hidden hover:border-blue-500/50 transition-colors">
+                <div class="bg-gradient-to-r from-blue-900/40 to-transparent p-5 border-b border-gray-800">
+                    <h3 class="text-lg font-bold text-blue-400 flex items-center gap-2">
+                        <i class="ph-bold ph-crosshair"></i> Perfeccionamiento Técnico
+                    </h3>
+                    <p class="text-xs text-gray-400 mt-1">Corrigen deficiencias en ángulos y fases específicas del levantamiento.</p>
+                </div>
+                <div class="p-5 flex-1">
+                    
+                    <ul class="space-y-4 mt-4">
+                        <li>
+                            <h4 class="text-sm font-bold text-white">Sentadilla de Arranque (Overhead Squat)</h4>
+                            <p class="text-xs text-gray-400">Sentadilla con la barra bloqueada sobre la cabeza con agarre ancho. Prueba definitiva de balance, movilidad y control.</p>
+                        </li>
+                        <li>
+                            <h4 class="text-sm font-bold text-white">Colgantes (Hang Snatches/Cleans)</h4>
+                            <p class="text-xs text-gray-400">Partiendo desde las rodillas o cadera alta. Elimina el primer tirón para enfocar al atleta al 100% en la explosividad del segundo halón.</p>
+                        </li>
+                        <li>
+                            <h4 class="text-sm font-bold text-white">Levantamientos de Fuerza (Muscle Snatch/Clean)</h4>
+                            <p class="text-xs text-gray-400">Se ejecuta el tirón completo pero sin deslizar debajo de la barra. Educa la trayectoria ascendente de la barra y la rotación rápida de codos.</p>
+                        </li>
+                        <li>
+                            <h4 class="text-sm font-bold text-white">Snatch Balance / Drop Snatch</h4>
+                            <p class="text-xs text-gray-400">Con la barra en la nuca, el atleta se deja caer a gran velocidad hacia una sentadilla de arranque. Mejora la velocidad bajo la barra y la agresividad del bloqueo.</p>
+                        </li>
+                        <li>
+                            <h4 class="text-sm font-bold text-white">Desde Bloques (From Blocks)</h4>
+                            <p class="text-xs text-gray-400">La barra descansa sobre cajones a diferentes alturas, aislando la fase final del levantamiento.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-    // Chart.js - Potencia
-    const ctx = document.getElementById('graficoPotencia').getContext('2d');
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Arranque', 'Envión', 'Sentadilla Frontal', 'Sentadilla Trasera'],
-            datasets: [{
-                label: 'Kg promedio por atleta',
-                data: [95, 120, 140, 180],
-                backgroundColor: '#8af70488',
-                borderColor: '#8af704',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: { legend: { labels: { color: '#fff' } } },
-            scales: {
-                x: { ticks: { color: '#ccc' } },
-                y: { ticks: { color: '#ccc' }, beginAtZero: true }
-            }
-        }
-    });
-</script>
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl flex flex-col overflow-hidden hover:border-amber-500/50 transition-colors">
+                <div class="bg-gradient-to-r from-amber-900/40 to-transparent p-5 border-b border-gray-800">
+                    <h3 class="text-lg font-bold text-amber-400 flex items-center gap-2">
+                        <i class="ph-bold ph-lightning"></i> Resistencia a la Potencia
+                    </h3>
+                    <p class="text-xs text-gray-400 mt-1">Capacidad para repetir esfuerzos explosivos sin degradación técnica.</p>
+                </div>
+                <div class="p-5 flex-1">
+                    <ul class="space-y-4">
+                        <li>
+                            <h4 class="text-sm font-bold text-white">Power Snatch / Power Clean</h4>
+                            <p class="text-xs text-gray-400">Recepcionar la barra por encima del paralelo (sin sentadilla profunda). Demanda máxima aceleración vertical, obligando a generar más potencia.</p>
+                        </li>
+                        <li>
+                            <h4 class="text-sm font-bold text-white">Complexes de Halterofilia</h4>
+                            <p class="text-xs text-gray-400">Una serie ininterrumpida de ejercicios. Ejemplo: 1 Power Clean + 2 Front Squats + 1 Split Jerk. Disparan la resistencia anaeróbica específica y la tolerancia al lactato.</p>
+                        </li>
+                        <li>
+                            <h4 class="text-sm font-bold text-white">EMOMs Olímpicos</h4>
+                            <p class="text-xs text-gray-400">Realizar repeticiones pesadas cada minuto en el minuto (Every Minute On the Minute). Enseña al sistema nervioso central a reclutar fibras rápidas bajo un estado de fatiga controlada.</p>
+                        </li>
+                        <li>
+                            <h4 class="text-sm font-bold text-white">Saltos Pliométricos</h4>
+                            <p class="text-xs text-gray-400">Box jumps y Depth Jumps. Trabajo neuro-mecánico directo para optimizar el ciclo estiramiento-acortamiento de los tendones de las piernas.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="mt-12">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+            <div class="flex items-center gap-3">
+                <i class="ph-fill ph-book-bookmark text-3xl text-gray-400"></i>
+                <h2 class="text-2xl font-bold text-white">Diccionario Avanzado de Halterofilia</h2>
+            </div>
+        </div>
+        
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden shadow-xl">
+            <div class="bg-gray-800/80 px-6 py-3 border-b border-gray-700">
+                <h3 class="text-xs font-black text-gray-400 uppercase tracking-widest">A. Biomecánica y Ejecución Técnica</h3>
+            </div>
+            <table class="w-full text-sm text-left text-gray-300">
+                <tbody>
+                    
+                    <tr class="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
+                        <td class="px-6 py-4 font-bold text-blue-400 whitespace-nowrap w-1/4">Triple Extensión</td>
+                        <td class="px-6 py-4">El concepto más importante. Es la extensión explosiva, simultánea y violenta de los tobillos (plantarflexión), rodillas y caderas en el ápice del levantamiento para transferir el máximo momentum a la barra.</td>
+                    </tr>
+                    <tr class="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
+                        <td class="px-6 py-4 font-bold text-blue-400 whitespace-nowrap">Hook Grip (Agarre de Gancho)</td>
+                        <td class="px-6 py-4">
+                            Técnica biomecánica donde el pulgar abraza primero la barra, y los dedos índice y medio se cierran *sobre* el pulgar. Es doloroso al principio, pero actúa mecánicamente como unas correas de levantamiento biológicas, impidiendo que la barra resbale en la fase de aceleración.
+                            <div class="mt-2"></div>
+                        </td>
+                    </tr>
+                    <tr class="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
+                        <td class="px-6 py-4 font-bold text-blue-400 whitespace-nowrap">Primer Halón (First Pull)</td>
+                        <td class="px-6 py-4">Fase desde que la barra se despega del suelo hasta que pasa las rodillas. Aquí prima la postura, mantener el ángulo de la espalda y empujar contra el suelo, NO la velocidad máxima.</td>
+                    </tr>
+                    <tr class="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
+                        <td class="px-6 py-4 font-bold text-blue-400 whitespace-nowrap">Segundo Halón (Second Pull)</td>
+                        <td class="px-6 py-4">La fase de explosión. Va desde las rodillas hasta el contacto con la cadera alta/pubis, culminando con la triple extensión. Es la fase más rápida y agresiva del levantamiento.</td>
+                    </tr>
+                    <tr class="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
+                        <td class="px-6 py-4 font-bold text-blue-400 whitespace-nowrap">Dip y Drive (Flexión y Empuje)</td>
+                        <td class="px-6 py-4">Las fases previas al Jerk (Envión final). El "Dip" es la semiflexión vertical, controlada y corta de las rodillas. El "Drive" es la explosión ascendente que transmite la fuerza de las piernas a la barra.</td>
+                    </tr>
+                    <tr class="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
+                        <td class="px-6 py-4 font-bold text-blue-400 whitespace-nowrap">Split (Tijera)</td>
+                        <td class="px-6 py-4">Técnica de recepción del Jerk donde una pierna va hacia adelante y la otra hacia atrás, creando una inmensa base de sustentación para estabilizar grandes toneladas de peso sobre la cabeza.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="bg-gray-800/80 px-6 py-3 border-y border-gray-700">
+                <h3 class="text-xs font-black text-gray-400 uppercase tracking-widest">B. Programación y Entrenamiento</h3>
+            </div>
+            <table class="w-full text-sm text-left text-gray-300">
+                <tbody>
+                    <tr class="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
+                        <td class="px-6 py-4 font-bold text-lime-400 whitespace-nowrap w-1/4">1RM (Repetición Máxima)</td>
+                        <td class="px-6 py-4">El peso máximo histórico que un atleta ha logrado levantar en un ejercicio específico, ejecutando la técnica correcta una sola vez. Toda la programación del atleta se calcula como un porcentaje (%) de este número.</td>
+                    </tr>
+                    <tr class="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
+                        <td class="px-6 py-4 font-bold text-lime-400 whitespace-nowrap">Tapering (Descarga)</td>
+                        <td class="px-6 py-4">Reducción drástica del volumen de entrenamiento (pero manteniendo la alta intensidad) en las últimas 1 a 3 semanas antes de una competencia importante, para permitir la supercompensación y eliminar la fatiga residual acumulada del macrociclo.</td>
+                    </tr>
+                    <tr class="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
+                        <td class="px-6 py-4 font-bold text-lime-400 whitespace-nowrap">Macrociclo, Mesociclo y Microciclo</td>
+                        <td class="px-6 py-4">
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>**Macrociclo:** La estructura anual o general (Ej. Planificación hacia los Juegos Olímpicos).</li>
+                                <li>**Mesociclo:** Un bloque de varias semanas enfocado en un solo objetivo (Ej. Ciclo de fuerza o ciclo de transformación).</li>
+                                <li>**Microciclo:** El plan detallado de una sola semana de entrenamiento.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-gray-800/30 transition-colors">
+                        <td class="px-6 py-4 font-bold text-lime-400 whitespace-nowrap">Prílepin (Tabla de Prilepin)</td>
+                        <td class="px-6 py-4">Una tabla de programación legendaria desarrollada en la Unión Soviética por A.S. Prilepin. Define matemáticamente cuántas repeticiones y series son óptimas realizar basándose en el porcentaje del 1RM para maximizar la velocidad y la potencia sin freír el sistema nervioso central.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

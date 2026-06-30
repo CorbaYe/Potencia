@@ -120,7 +120,7 @@ def atletas(request):
         form.save()
         return redirect('atletas')
     
-    return render(request, 'atletas.html', {
+    return render(request, 'atletas/atletas.html', {
         'atletas': atletas,
         'form': form,
         'editing': True,
