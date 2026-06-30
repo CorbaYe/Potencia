@@ -64,9 +64,9 @@
                         <button type="button" data-modal-target="editarAtletaModal-{{ atleta.id }}" data-modal-toggle="editarAtletaModal-{{ atleta.id }}" class="p-2 text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 rounded-lg transition-colors cursor-pointer" title="Editar">
                             <i class="ph-bold ph-pencil-simple text-lg"></i>
                         </button>
-                        <a href="{% url 'eliminar_atleta' atleta.id %}" class="p-2 text-red-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors" title="Eliminar">
+                        <button type="button" data-modal-target="eliminarAtltetaModal-{{ atleta.id }}" data-modal-toggle="eliminarAtltetaModal-{{ atleta.id }}" class="flex justify-center items-center w-full bg-transparent text-gray-300 hover:text-white font-semibold py-2.5 px-6 rounded-xl text-sm border border-gray-700 hover:border-gray-500 hover:bg-gray-800/50 transition-all">
                             <i class="ph-bold ph-trash text-lg"></i>
-                        </a>
+                        </button>
                     </div>
                 </td>
             </tr>
